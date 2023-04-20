@@ -2,8 +2,8 @@ from typing import List
 from colorama import Fore
 
 class Commit():
-    def __init__(self, string):
-        hash, datetime, author, subject, body = string.split(' | ')
+    def __init__(self, header, body):
+        hash, datetime, author, subject = header.split(' | ')
         self.hash = hash
         self.date = datetime.split(', ')[0]
         self.time = datetime.split(', ')[1]

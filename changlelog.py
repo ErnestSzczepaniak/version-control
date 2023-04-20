@@ -32,17 +32,20 @@ def execute(**kwargs):
     for index, commit in enumerate(commits):
 
         if last_version != versions[index]:
+
             link_tree = url + '/tree/' + commit.hash
+
             md.h2(f'**[{versions[index]}]({link_tree})**')
             md.line()
 
         link_commit = url + '/commit/' + commit.hash
-        md.item(f'**[{commit.date}]** [[{commit.hash}]({link_commit})] ({commit.keyword}) - {commit.subject} ({commit.author})')
+
+        md.item(f'**[{commit.date}]** [[{commit.hash}]({link_commit})] ({commit.keyword}) - {commit.subject} ({commit.author} @ {commit.time})')
 
         if commit.body != '':
             md.text('')
             md.text('   ```')
-            for element in commit.body.split('\n')[:-1]:
+            for element in commit.body[:-1]:
                 md.text(f'   {element}')
             md.text('   ```')
 

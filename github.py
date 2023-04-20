@@ -19,32 +19,23 @@ class Github():
         return f'https://github.com/{response}'
 
     def commits(self):
-        syntax = f"git -C {self.path} log --pretty=format:'%h | %ad | %an | %s | %b' --date=format:'%d.%m.%Y, %H:%M:%S'"
+        syntax = f"git -C {self.path} log --pretty=format:'%h | %ad | %an | %s - %b' --date=format:'%d.%m.%Y, %H:%M:%S'"
         lines = self.command_execute(syntax)
         if lines == []: return None
 
-        commit_lines = []
-
-        current_header = ''
-        current_body = []
+        commits = {}
+        current = ''
 
         for line in lines:
             if '|' in line:
-                if current_header != '':
-                    commit_lines.append(current_header + ' | ' + '\n'.join(current_body))
-                    current_header = ''
-                    current_body = []
-                items = line.split(' | ')
-                current_header = ' | '.join(items[0:len(items) - 1])
-                current_body = [line.split(' | ')[-1]]
-            elif line != '':
-                current_body.append(line)
+                h, b = line.split(' - ')
+                commits[h] = [b]
+                current = h
             else:
-                current_body.append('')
+                commits[current].append(line)
 
-        commit_lines.reverse()
 
-        return [Commit(line) for line in commit_lines]
+        return [Commit(key, value) for key, value in reversed(commits.items())]
 
     def versions(self, commits: List[Commit], major: str = 'break', minor: str = 'feat', patch: str = 'fix'):
         version = [0, 0, 0]
