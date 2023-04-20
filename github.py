@@ -19,11 +19,30 @@ class Github():
         return f'https://github.com/{response}'
 
     def commits(self):
-        syntax = f"git -C {self.path} log --pretty=format:'%h | %ad | %s | %an | %b' --date=format:'%d.%m.%Y, %H:%M:%S'"
+        syntax = f"git -C {self.path} log --pretty=format:'%h | %ad | %an | %s | %b' --date=format:'%d.%m.%Y, %H:%M:%S'"
         lines = self.command_execute(syntax)
         if lines == []: return None
-        lines.reverse()
-        return [Commit(line) for line in lines]
+
+        commit_lines = []
+
+        current_header = ''
+        current_body = []
+
+        for line in lines:
+            if '|' in line:
+                items = line.split(' | ')
+                current_header = ' | '.join(items[0:len(items) - 1])
+                current_body = [line.split(' | ')[-1]]
+            elif line != '':
+                current_body.append(line)
+            else:
+                commit_lines.append(current_header + ' | ' + '\n'.join(current_body))
+                current_header = ''
+                current_body = []
+
+        commit_lines.reverse()
+
+        return [Commit(line) for line in commit_lines]
 
     def versions(self, commits: List[Commit], major: str = 'break', minor: str = 'feat', patch: str = 'fix'):
         version = [0, 0, 0]

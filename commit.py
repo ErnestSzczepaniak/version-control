@@ -3,15 +3,15 @@ from colorama import Fore
 
 class Commit():
     def __init__(self, string):
-        hash, datetime, subject, body, author = string.split(' | ')
-        self.version = ''
+        hash, datetime, author, subject, body = string.split(' | ')
         self.hash = hash
         self.date = datetime.split(', ')[0]
         self.time = datetime.split(', ')[1]
+        self.author = author
         self.keyword = subject.split(': ')[0]
         self.subject = subject.split(': ')[1]
         self.body = body
-        self.author = author
+        self.version = ''
 
     def format_as_table(self, schema: List[str]):
         formated = {}
@@ -29,10 +29,10 @@ class Commit():
 
         formated['subject'] = '{:<{}}'.format(self.subject, max_length)
 
-        if len(self.body) > max_length:
-            self.body = self.body[:max_length - 6] + ' (...)'
+        # if len(self.body) > max_length:
+        #     self.body = self.body[:max_length - 6] + ' (...)'
 
-        formated['body'] = '{:<{}}'.format(self.body, max_length)
+        # formated['body'] = '{:<{}}'.format(self.body, max_length)
 
         formated['author'] = '{:<25}'.format(self.author)
 

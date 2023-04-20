@@ -13,7 +13,7 @@ ARGUMENTS = [
     ['--author',    {'type': str, 'default': '*',       'help': 'Author of commit'}],
     ['--format',    {'type': str, 'default': 'table',   'help': 'Format of commit {table, csv, json} (default: table)'}],
     ['--schema',    {'type': str, 'default': [
-        'version', 'hash', 'date', 'time', 'keyword', 'author', 'subject', 'body'
+        'version', 'hash', 'date', 'time', 'keyword', 'author', 'subject',
     ],                                                  'help': 'Schema of commit (default: version, hash, date, time, keyword, author, message)', 'nargs': '+', }]
 ]
 

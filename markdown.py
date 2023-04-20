@@ -42,3 +42,6 @@ class Markdown():
     def link(self, item, url):
         item = self.parse_item(item)
         return self.add_line(f'[{item}]({url})')
+    
+    def line(self):
+        return self.add_line('---')
