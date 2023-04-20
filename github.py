@@ -9,7 +9,6 @@ class Github():
     def command_execute(self, command) -> List[str]:
         output = subprocess.check_output(command, shell=True).decode()
         if output == '': return []
-        output = output.split('\n')
         return output
 
     def url(self):
