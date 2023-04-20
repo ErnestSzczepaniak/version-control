@@ -1,3 +1,19 @@
+## **[0.2.0](https://github.com/ErnestSzczepaniak/version/tree/9dab4b1)**
+---
+* **[20.04.2023]** [[9dab4b1](https://github.com/ErnestSzczepaniak/version/commit/9dab4b1)] (feat) - check commit spacing (Ernest Szczepaniak)
+
+   ```
+   1
+   2
+   3
+   
+   3
+   4
+   
+   4
+   5
+   6
+   ```
 ## **[0.1.2](https://github.com/ErnestSzczepaniak/version/tree/b48fadf)**
 ---
 * **[20.04.2023]** [[b48fadf](https://github.com/ErnestSzczepaniak/version/commit/b48fadf)] (fix) - verify changelog creation (Ernest Szczepaniak)
