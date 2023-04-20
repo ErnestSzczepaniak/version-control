@@ -9,6 +9,7 @@ class Github():
     def command_execute(self, command) -> List[str]:
         output = subprocess.check_output(command, shell=True).decode()
         if output == '': return []
+        output = output.split('\n')
         return output
 
     def url(self):
@@ -18,7 +19,7 @@ class Github():
         return f'https://github.com/{response}'
 
     def commits(self):
-        syntax = f"git -C {self.path} log --pretty=format:'%h | %ad | %s | %b | %an' --date=format:'%d.%m.%Y, %H:%M:%S'"
+        syntax = f"git -C {self.path} log --pretty=format:'%h | %ad | %s | %an | %b' --date=format:'%d.%m.%Y, %H:%M:%S'"
         lines = self.command_execute(syntax)
         if lines == []: return None
         lines.reverse()
