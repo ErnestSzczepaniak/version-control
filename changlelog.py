@@ -36,18 +36,15 @@ def execute(**kwargs):
             md.h2(f'**[{versions[index]}]({link_tree})**')
             md.line()
 
-
         link_commit = url + '/commit/' + commit.hash
         md.item(f'**[{commit.date}]** [[{commit.hash}]({link_commit})] ({commit.keyword}) - {commit.subject} ({commit.author})')
 
         if commit.body != '':
             md.text('')
-            md.text('&nbsp;')
-            for element in commit.body.split('\n'):
-                md.text('')
-                md.text(f'&emsp;&emsp;&emsp;{element}')
-                md.text('')
-            md.text('&nbsp;')
+            md.text('   ```')
+            for element in commit.body.split('\n')[:-1]:
+                md.text(f'   {element}')
+            md.text('   ```')
 
         last_version = versions[index]
 

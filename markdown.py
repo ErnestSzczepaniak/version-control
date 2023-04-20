@@ -45,3 +45,7 @@ class Markdown():
     
     def line(self):
         return self.add_line('---')
+    
+    def quote(self, item):
+        item = self.parse_item(item)
+        return self.add_line('> ' + item)

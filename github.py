@@ -30,15 +30,17 @@ class Github():
 
         for line in lines:
             if '|' in line:
+                if current_header != '':
+                    commit_lines.append(current_header + ' | ' + '\n'.join(current_body))
+                    current_header = ''
+                    current_body = []
                 items = line.split(' | ')
                 current_header = ' | '.join(items[0:len(items) - 1])
                 current_body = [line.split(' | ')[-1]]
             elif line != '':
                 current_body.append(line)
             else:
-                commit_lines.append(current_header + ' | ' + '\n'.join(current_body))
-                current_header = ''
-                current_body = []
+                current_body.append('')
 
         commit_lines.reverse()
 
