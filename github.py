@@ -18,37 +18,52 @@ class Github():
         response = response[response.find(':')+1:-4]
         return f'https://github.com/{response}'
 
-    def commits(self):
-        syntax = f"git -C {self.path} log --pretty=format:'%h | %ad | %an | %s - %b' --date=format:'%d.%m.%Y, %H:%M:%S'"
+    def commits(self,  major: str = 'break', minor: str = 'feat', patch: str = 'fix'):
+        syntax = f"git -C {self.path} log --pretty=format:'%h | %ad | %an | %s $ %b' --date=format:'%d.%m.%Y, %H:%M:%S'"
         lines = self.command_execute(syntax)
         if lines == []: return None
 
-        commits = {}
+        items = {}
         current = ''
 
         for line in lines:
             if '|' in line:
-                h, b = line.split(' - ')
-                commits[h] = [b]
+                h, b = line.split(' $ ')
+                items[h] = [b]
                 current = h
             else:
-                commits[current].append(line)
+                items[current].append(line)
 
+        items = dict(reversed(items.items()))
 
-        return [Commit(key, value) for key, value in reversed(commits.items())]
+        keywords = []
 
-    def versions(self, commits: List[Commit], major: str = 'break', minor: str = 'feat', patch: str = 'fix'):
+        for item in items:
+            subject = item.split(' | ')[-1]
+            keyword = subject.split(': ')[0]
+            keywords.append(keyword)
+
+        versions = self.versions(keywords, major, minor, patch)
+
+        commits = [Commit(header, body, version) for (header, body), version in zip(items.items(), versions)]
+
+        for index, commit in enumerate(commits):
+            commit.version = versions[index]
+
+        return commits
+
+    def versions(self, keywords: List[str], major: str = 'break', minor: str = 'feat', patch: str = 'fix'):
         version = [0, 0, 0]
         result = []
-        for commit in commits:
-            if commit.keyword == patch:
+        for keyword in keywords:
+            if keyword == patch:
                 version[2] += 1
                 result.append('.'.join([str(number) for number in version]))
-            elif commit.keyword == minor:
+            elif keyword == minor:
                 version[1] += 1
                 version[2] = 0
                 result.append('.'.join([str(number) for number in version]))
-            elif commit.keyword == major:
+            elif keyword == major:
                 version[0] += 1
                 version[1] = 0
                 version[2] = 0

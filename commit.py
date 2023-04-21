@@ -2,7 +2,7 @@ from typing import List
 from colorama import Fore
 
 class Commit():
-    def __init__(self, header, body):
+    def __init__(self, header, body, version):
         hash, datetime, author, subject = header.split(' | ')
         self.hash = hash
         self.date = datetime.split(', ')[0]
@@ -11,7 +11,7 @@ class Commit():
         self.keyword = subject.split(': ')[0]
         self.subject = subject.split(': ')[1]
         self.body = body
-        self.version = ''
+        self.version = version
 
     def format_as_table(self, schema: List[str]):
         formated = {}
