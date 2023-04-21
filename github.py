@@ -1,6 +1,7 @@
 import subprocess, pathlib
 from typing import List
 from commit import Commit
+from branch import Branch
 
 class Github():
     def __init__(self, path: str):
@@ -11,6 +12,12 @@ class Github():
         if output == '': return []
         output = output.split('\n')
         return output
+
+    def branches(self):
+        syntax = f"git -C {self.path} branch"
+        lines = self.command_execute(syntax)[:-1]
+        return [Branch(line) for line in lines]
+        
 
     def url(self):
         syntax = f"git -C {self.path} remote get-url origin"
