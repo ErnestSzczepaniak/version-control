@@ -4,10 +4,10 @@ Remote address:
 
 Branches:
 * main (**9** commits)
-* **test [current]** (**11** commits)
+* **test [current]** (**12** commits)
 
 Current version:
-* **0.4.0**
+* **0.4.0-rc.3**
 
 Contributors:
 * **Ernest Szczepaniak**
@@ -16,23 +16,24 @@ Project timeframe:
 * **20.04.2023 - 26.04.2023** (7 days)
 
 Code frequency:
-* **11** commits (**1.57** / day)
+* **12** commits (**1.71** / day)
 * **10** files changed (**1.43** / day)
 * **425** insertions (**60.71** / day)
-* **328** deletions (**46.86** / day)
+* **339** deletions (**48.43** / day)
 
 Commit structure:
-* **fix** - 5 (45.45%)
-* **feat** - 4 (36.36%)
-* **style** - 2 (18.18%)
+* **fix** - 5 (41.67%)
+* **feat** - 4 (33.33%)
+* **style** - 3 (25.0%)
 
 Version history:
-* [**0.4.0**](#040)
-* [**0.4.0**](#040)
+* [**0.4.0-rc.3**](#040-rc3)
+* [**0.4.0-rc.2**](#040-rc2)
+* [**0.4.0-rc.1**](#040-rc1)
 * [**0.3.2**](#032)
 * [**0.3.1**](#031)
-* [**0.3.0**](#030)
-* [**0.3.0**](#030)
+* [**0.3.0-rc.2**](#030-rc2)
+* [**0.3.0-rc.1**](#030-rc1)
 * [**0.2.2**](#022)
 * [**0.2.1**](#021)
 * [**0.2.0**](#020)
@@ -40,8 +41,11 @@ Version history:
 * [**0.1.0**](#010)
 
 # Changelog
-## **[0.4.0](https://github.com/ErnestSzczepaniak/version/tree/dd41587)**
+## **[0.4.0-rc.3](https://github.com/ErnestSzczepaniak/version/tree/fd6bd44)**
+* **[26.04.2023]** [[fd6bd44](https://github.com/ErnestSzczepaniak/version/commit/fd6bd44)] (style) - add tabs in COMMANDS dictionary (**Ernest Szczepaniak** @ 14:00:17)
+## **[0.4.0-rc.2](https://github.com/ErnestSzczepaniak/version/tree/dd41587)**
 * **[26.04.2023]** [[dd41587](https://github.com/ErnestSzczepaniak/version/commit/dd41587)] (style) - rework to FORMAT_TABLE and COMMANDS (**Ernest Szczepaniak** @ 13:50:05)
+## **[0.4.0-rc.1](https://github.com/ErnestSzczepaniak/version/tree/0c23698)**
 * **[21.04.2023]** [[0c23698](https://github.com/ErnestSzczepaniak/version/commit/0c23698)] (feat) - add branches in changelog (**Ernest Szczepaniak** @ 13:11:09)
 
    ```
@@ -52,7 +56,7 @@ Version history:
 * **[21.04.2023]** [[36f14bf](https://github.com/ErnestSzczepaniak/version/commit/36f14bf)] (fix) - switch to another branch (**Ernest Szczepaniak** @ 12:51:02)
 ## **[0.3.1](https://github.com/ErnestSzczepaniak/version/tree/310b5b9)**
 * **[20.04.2023]** [[310b5b9](https://github.com/ErnestSzczepaniak/version/commit/310b5b9)] (fix) - try commit without body (**Ernest Szczepaniak** @ 12:53:39)
-## **[0.3.0](https://github.com/ErnestSzczepaniak/version/tree/6abd722)**
+## **[0.3.0-rc.2](https://github.com/ErnestSzczepaniak/version/tree/6abd722)**
 * **[20.04.2023]** [[6abd722](https://github.com/ErnestSzczepaniak/version/commit/6abd722)] (style) - add styling (**Ernest Szczepaniak** @ 11:55:29)
 
    ```
@@ -63,6 +67,7 @@ Version history:
    dd2dadasd
    ```
 
+## **[0.3.0-rc.1](https://github.com/ErnestSzczepaniak/version/tree/9dab4b1)**
 * **[20.04.2023]** [[9dab4b1](https://github.com/ErnestSzczepaniak/version/commit/9dab4b1)] (feat) - check commit spacing (**Ernest Szczepaniak** @ 11:54:45)
 
    ```

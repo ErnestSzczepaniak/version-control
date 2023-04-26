@@ -3,7 +3,7 @@ from colorama import Fore
 import json
 
 FORMAT_TABLE = {
-    'version': Fore.YELLOW + '{:<8}' + Fore.RESET,
+    'version': Fore.YELLOW + '{:<11}' + Fore.RESET,
     'hash': '{:<7}',
     'date': '{:<10}',
     'time': '{:<8}',

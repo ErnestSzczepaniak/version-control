@@ -83,4 +83,21 @@ class Github():
                 version[1] = 0
                 version[2] = 0
             result.append('.'.join([str(number) for number in version]))
-        return result
+
+        occurences = {}
+
+        for version in result:
+            if version not in occurences:
+                occurences[version] = 0
+            occurences[version] += 1
+
+        versions = []
+
+        for entry in occurences:
+            if occurences[entry] == 1:
+                versions.append(entry)
+            else:
+                for i in range(occurences[entry]):
+                    versions.append(f'{entry}-rc.{i+1}')
+
+        return versions
