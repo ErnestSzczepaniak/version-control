@@ -5,11 +5,11 @@ from branch import Branch
 from difference import Difference
 
 COMMANDS = {
-    'branches': 'git -C {path} branch',
-    'commits': 'git -C {path} rev-list --count {branch}',
-    'difference': 'git -C {path} diff {commit_start} {commit_stop} --stat',
-    'url': 'git -C {path} remote get-url origin',
-    'log': "git -C {path} log --pretty=format:'%h | %ad | %an | %s $ %b' --date=format:'%d.%m.%Y, %H:%M:%S'"
+    'branches':     'git -C {path} branch',
+    'commits':      'git -C {path} rev-list --count {branch}',
+    'difference':   'git -C {path} diff {commit_start} {commit_stop} --stat',
+    'url':          'git -C {path} remote get-url origin',
+    'log':          "git -C {path} log --pretty=format:'%h | %ad | %an | %s $ %b' --date=format:'%d.%m.%Y, %H:%M:%S'"
 }
 
 class Github():

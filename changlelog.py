@@ -11,6 +11,11 @@ ARGUMENTS = [
     ['--output',    {'type': str,   'default': 'CHANGELOG.md',  'help': 'Output file (default: CHANGELOG.md)'}]
 ]
 
+def add_remote_address(md: markdown.Markdown, remote_address: str):
+    md.text('Remote address:')
+    md.item(f'**{remote_address}**')
+    md.text('')
+
 def add_branch_list(md: markdown.Markdown, branches: List[Branch]):
     md.text('Branches:')
     for branch in branches:
@@ -97,6 +102,7 @@ def execute(**kwargs):
 
     md.h1('Quick access')
 
+    add_remote_address(md, url)
     add_branch_list(md, branches)
     add_current_version(md, commits)
     add_contributors(md, commits)

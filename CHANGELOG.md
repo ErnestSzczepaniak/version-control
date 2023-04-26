@@ -1,7 +1,10 @@
 # Quick access
+Remote address:
+* **https://github.com/ErnestSzczepaniak/version**
+
 Branches:
 * main (**9** commits)
-* **test [current]** (**10** commits)
+* **test [current]** (**11** commits)
 
 Current version:
 * **0.4.0**
@@ -10,20 +13,21 @@ Contributors:
 * **Ernest Szczepaniak**
 
 Project timeframe:
-* **20.04.2023 - 21.04.2023** (2 days)
+* **20.04.2023 - 26.04.2023** (7 days)
 
 Code frequency:
-* **10** commits (**5.0** / day)
-* **8** files changed (**4.0** / day)
-* **373** insertions (**186.5** / day)
-* **272** deletions (**136.0** / day)
+* **11** commits (**1.57** / day)
+* **10** files changed (**1.43** / day)
+* **425** insertions (**60.71** / day)
+* **328** deletions (**46.86** / day)
 
 Commit structure:
-* **fix** - 5 (50.0%)
-* **feat** - 4 (40.0%)
-* **style** - 1 (10.0%)
+* **fix** - 5 (45.45%)
+* **feat** - 4 (36.36%)
+* **style** - 2 (18.18%)
 
 Version history:
+* [**0.4.0**](#040)
 * [**0.4.0**](#040)
 * [**0.3.2**](#032)
 * [**0.3.1**](#031)
@@ -36,7 +40,8 @@ Version history:
 * [**0.1.0**](#010)
 
 # Changelog
-## **[0.4.0](https://github.com/ErnestSzczepaniak/version/tree/0c23698)**
+## **[0.4.0](https://github.com/ErnestSzczepaniak/version/tree/dd41587)**
+* **[26.04.2023]** [[dd41587](https://github.com/ErnestSzczepaniak/version/commit/dd41587)] (style) - rework to FORMAT_TABLE and COMMANDS (**Ernest Szczepaniak** @ 13:50:05)
 * **[21.04.2023]** [[0c23698](https://github.com/ErnestSzczepaniak/version/commit/0c23698)] (feat) - add branches in changelog (**Ernest Szczepaniak** @ 13:11:09)
 
    ```
