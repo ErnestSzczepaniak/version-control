@@ -1,32 +1,40 @@
-# Quick access
+# Table of contents
+This changelog was generated with `version` software tool
+* [Overview](#overview)
+* [Statistics](#statistics)
+* [Version history](#version-history)
+* [Changelog](#changelog)
+# Overview
 Remote address:
 * **https://github.com/ErnestSzczepaniak/version**
-
-Branches:
-* main (**9** commits)
-* **test [current]** (**14** commits)
-
-Current version:
-* **0.5.0-rev.2**
 
 Contributors:
 * **Ernest Szczepaniak**
 
+Branches:
+* **main [current]** (**15** commits)
+* test (**15** commits)
+
+Current version:
+* **0.5.1**
+
+# Statistics
 Project timeframe:
 * **20.04.2023 - 26.04.2023** (7 days)
 
 Code frequency:
-* **14** commits (**2.0** / day)
+* **15** commits (**2.14** / day)
 * **10** files changed (**1.43** / day)
 * **425** insertions (**60.71** / day)
-* **371** deletions (**53.0** / day)
+* **376** deletions (**53.71** / day)
 
 Commit structure:
-* **feat** - 5 (35.71%)
-* **fix** - 5 (35.71%)
-* **style** - 4 (28.57%)
+* **fix** - 6 (40.0%)
+* **feat** - 5 (33.33%)
+* **style** - 4 (26.67%)
 
-Version history:
+# Version history
+* [**0.5.1**](#051)
 * [**0.5.0-rev.2**](#050-rev2)
 * [**0.5.0-rev.1**](#050-rev1)
 * [**0.4.0-rev.3**](#040-rev3)
@@ -43,6 +51,8 @@ Version history:
 * [**0.1.0**](#010)
 
 # Changelog
+## **[0.5.1](https://github.com/ErnestSzczepaniak/version/tree/89e51aa)**
+* **[26.04.2023]** [[89e51aa](https://github.com/ErnestSzczepaniak/version/commit/89e51aa)] (fix) - prepare to merge (**Ernest Szczepaniak** @ 14:36:47)
 ## **[0.5.0-rev.2](https://github.com/ErnestSzczepaniak/version/tree/5864c0f)**
 * **[26.04.2023]** [[5864c0f](https://github.com/ErnestSzczepaniak/version/commit/5864c0f)] (style) - change *-rc.X to *-rev.X (**Ernest Szczepaniak** @ 14:17:21)
 ## **[0.5.0-rev.1](https://github.com/ErnestSzczepaniak/version/tree/6e61149)**

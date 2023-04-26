@@ -76,7 +76,6 @@ def add_commit_structure(md: markdown.Markdown, commits: List[commit.Commit]):
     md.text('')
 
 def add_version_history(md: markdown.Markdown, commits: List[commit.Commit]):
-    md.text('Version history:')
     for commit in commits:
         link = commit.version.replace('.', '')
         md.item(f'[**{commit.version}**](#{link})')
@@ -100,15 +99,26 @@ def execute(**kwargs):
 
     md = markdown.Markdown()
 
-    md.h1('Quick access')
+    md.h1('Table of contents')
+    md.text('This changelog was generated with `version` software tool')
+    md.item('[Overview](#overview)')
+    md.item('[Statistics](#statistics)')
+    md.item('[Version history](#version-history)')
+    md.item('[Changelog](#changelog)')
 
+    md.h1('Overview')
     add_remote_address(md, url)
+    add_contributors(md, commits)
     add_branch_list(md, branches)
     add_current_version(md, commits)
-    add_contributors(md, commits)
+    
+
+    md.h1('Statistics')
     add_project_timeframe(md, commits)
     add_code_frequency(md, commits, difference)
     add_commit_structure(md, commits)
+
+    md.h1('Version history')
     add_version_history(md, commits)
 
     md.h1('Changelog')
