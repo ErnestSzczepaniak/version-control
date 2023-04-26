@@ -15,7 +15,7 @@ ARGUMENTS = [
     ['--schema',    {'type': str, 'default': [
         'version', 'hash', 'date', 'time', 'keyword', 'author', 'subject',
     ],                                                  'help': 'Schema of commit (default: version, hash, date, time, keyword, author, message)', 'nargs': '+', }],
-    ['--reverse',   {'type': bool,  'default': True,            'help': 'Reverse order of commits (default: False)'}]
+    ['--reverse',   {'type': bool,  'default': True,    'help': 'Reverse order of commits (default: False)'}]
 ]
 
 def execute(**kwargs):

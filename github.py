@@ -2,32 +2,47 @@ import subprocess, pathlib
 from typing import List
 from commit import Commit
 from branch import Branch
+from difference import Difference
+
+COMMANDS = {
+    'branches': 'git -C {path} branch',
+    'commits': 'git -C {path} rev-list --count {branch}',
+    'difference': 'git -C {path} diff {commit_start} {commit_stop} --stat',
+    'url': 'git -C {path} remote get-url origin',
+    'log': "git -C {path} log --pretty=format:'%h | %ad | %an | %s $ %b' --date=format:'%d.%m.%Y, %H:%M:%S'"
+}
 
 class Github():
     def __init__(self, path: str):
         self.path = pathlib.Path(path).absolute()
 
-    def command_execute(self, command) -> List[str]:
-        output = subprocess.check_output(command, shell=True).decode()
+    def command_execute(self, command: str, **kwargs) -> List[str]:
+        syntax = COMMANDS[command].format(path=self.path, **kwargs)
+        output = subprocess.check_output(syntax, shell=True).decode()
         if output == '': return []
-        output = output.split('\n')
-        return output
+        return output.split('\n')
 
     def branches(self):
-        syntax = f"git -C {self.path} branch"
-        lines = self.command_execute(syntax)[:-1]
-        return [Branch(line) for line in lines]
-        
+        lines = self.command_execute('branches')[:-1]
+        branches = [Branch(line) for line in lines]
+
+        for branch in branches:
+            branch.commits = int(self.command_execute('commits', branch=branch.name)[0])
+
+        return branches
+
+    def difference(self, commit_start, commit_stop):
+        lines = self.command_execute('difference', commit_start=commit_start.hash, commit_stop=commit_stop.hash)
+        if lines == []: return None
+        return Difference(lines[-2])
 
     def url(self):
-        syntax = f"git -C {self.path} remote get-url origin"
-        response = self.command_execute(syntax)[0]
+        response = self.command_execute('url')[0]
         response = response[response.find(':')+1:-4]
         return f'https://github.com/{response}'
 
     def commits(self,  major: str = 'break', minor: str = 'feat', patch: str = 'fix'):
-        syntax = f"git -C {self.path} log --pretty=format:'%h | %ad | %an | %s $ %b' --date=format:'%d.%m.%Y, %H:%M:%S'"
-        lines = self.command_execute(syntax)
+        lines = self.command_execute('log')
         if lines == []: return None
 
         items = {}
@@ -52,12 +67,7 @@ class Github():
 
         versions = self.versions(keywords, major, minor, patch)
 
-        commits = [Commit(header, body, version) for (header, body), version in zip(items.items(), versions)]
-
-        for index, commit in enumerate(commits):
-            commit.version = versions[index]
-
-        return commits
+        return [Commit(version, header, body) for version, (header, body) in zip(versions, items.items())]
 
     def versions(self, keywords: List[str], major: str = 'break', minor: str = 'feat', patch: str = 'fix'):
         version = [0, 0, 0]
@@ -65,16 +75,12 @@ class Github():
         for keyword in keywords:
             if keyword == patch:
                 version[2] += 1
-                result.append('.'.join([str(number) for number in version]))
             elif keyword == minor:
                 version[1] += 1
                 version[2] = 0
-                result.append('.'.join([str(number) for number in version]))
             elif keyword == major:
                 version[0] += 1
                 version[1] = 0
                 version[2] = 0
-                result.append('.'.join([str(number) for number in version]))
-            else:
-                result.append('.'.join([str(number) for number in version]))
+            result.append('.'.join([str(number) for number in version]))
         return result

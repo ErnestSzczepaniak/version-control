@@ -11,10 +11,8 @@ def execute(**kwargs):
 
     client = github.Github(kwargs['path'])
 
-    commits = client.commits()
+    commits = client.commits(kwargs['major'], kwargs['minor'], kwargs['patch'])
     
     if commits is None: return
 
-    versions = client.versions(commits, kwargs['major'], kwargs['minor'], kwargs['patch'])
-
-    print(versions[-1])
+    print(commits[-1].version)

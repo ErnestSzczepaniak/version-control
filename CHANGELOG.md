@@ -1,28 +1,33 @@
 # Quick access
 Branches:
-* main
-* **test** (current)
+* main (**9** commits)
+* **test [current]** (**10** commits)
 
 Current version:
-* **0.3.2**
+* **0.4.0**
 
 Contributors:
 * **Ernest Szczepaniak**
 
 Project timeframe:
-* **20.04.2023 - 21.04.2023**
+* **20.04.2023 - 21.04.2023** (2 days)
 
-Commit frequency:
-* **9** commits over **2** days (**4.5** commits per day)
+Code frequency:
+* **10** commits (**5.0** / day)
+* **8** files changed (**4.0** / day)
+* **373** insertions (**186.5** / day)
+* **272** deletions (**136.0** / day)
 
 Commit structure:
-* **fix** - 5
-* **feat** - 3
-* **style** - 1
+* **fix** - 5 (50.0%)
+* **feat** - 4 (40.0%)
+* **style** - 1 (10.0%)
 
 Version history:
+* [**0.4.0**](#040)
 * [**0.3.2**](#032)
 * [**0.3.1**](#031)
+* [**0.3.0**](#030)
 * [**0.3.0**](#030)
 * [**0.2.2**](#022)
 * [**0.2.1**](#021)
@@ -31,6 +36,13 @@ Version history:
 * [**0.1.0**](#010)
 
 # Changelog
+## **[0.4.0](https://github.com/ErnestSzczepaniak/version/tree/0c23698)**
+* **[21.04.2023]** [[0c23698](https://github.com/ErnestSzczepaniak/version/commit/0c23698)] (feat) - add branches in changelog (**Ernest Szczepaniak** @ 13:11:09)
+
+   ```
+   this will help to clarify the repository structure
+   ```
+
 ## **[0.3.2](https://github.com/ErnestSzczepaniak/version/tree/36f14bf)**
 * **[21.04.2023]** [[36f14bf](https://github.com/ErnestSzczepaniak/version/commit/36f14bf)] (fix) - switch to another branch (**Ernest Szczepaniak** @ 12:51:02)
 ## **[0.3.1](https://github.com/ErnestSzczepaniak/version/tree/310b5b9)**

@@ -15,9 +15,9 @@ def add_branch_list(md: markdown.Markdown, branches: List[Branch]):
     md.text('Branches:')
     for branch in branches:
         if branch.active:
-            md.item(f'**{branch.name}** (current)')
+            md.item(f'**{branch.name} [current]** (**{branch.commits}** commits)')
         else:
-            md.item(branch.name)
+            md.item(f'{branch.name} (**{branch.commits}** commits)')
     md.text('')
 
 
@@ -40,16 +40,21 @@ def add_project_timeframe(md: markdown.Markdown, commits: List[commit.Commit]):
     md.text('Project timeframe:')
     date_start = commits[-1].date
     date_end = commits[0].date
-    md.item(f'**{date_start} - {date_end}**')
+    period = datetime.datetime.strptime(date_end, '%d.%m.%Y') - datetime.datetime.strptime(date_start, '%d.%m.%Y')
+    days = period.days + 1
+    md.item(f'**{date_start} - {date_end}** ({days} days)')
     md.text('')
 
-def add_commit_frequency(md: markdown.Markdown, commits: List[commit.Commit]):
-    md.text('Commit frequency:')
+def add_code_frequency(md: markdown.Markdown, commits: List[commit.Commit], difference):
+    md.text('Code frequency:')
     date_start = commits[-1].date
     date_end = commits[0].date
     period = datetime.datetime.strptime(date_end, '%d.%m.%Y') - datetime.datetime.strptime(date_start, '%d.%m.%Y')
     period = period.days + 1
-    md.item(f'**{len(commits)}** commits over **{period}** days (**{round(len(commits) / period, 2)}** commits per day)')
+    md.item(f'**{len(commits)}** commits (**{round(len(commits) / period, 2)}** / day)')
+    md.item(f'**{difference.files_changed}** files changed (**{round(difference.files_changed / period, 2)}** / day)')
+    md.item(f'**{difference.insertions}** insertions (**{round(difference.insertions / period, 2)}** / day)')
+    md.item(f'**{difference.deletions}** deletions (**{round(difference.deletions / period, 2)}** / day)')
     md.text('')
 
 def add_commit_structure(md: markdown.Markdown, commits: List[commit.Commit]):
@@ -61,17 +66,15 @@ def add_commit_structure(md: markdown.Markdown, commits: List[commit.Commit]):
         occurences[commit.keyword] += 1
     occurences = {k: v for k, v in sorted(occurences.items(), key=lambda item: item[1], reverse=True)}
     for keyword in occurences:
-        md.item(f'**{keyword}** - {occurences[keyword]}')
+        percentage = round(occurences[keyword] / len(commits) * 100, 2)
+        md.item(f'**{keyword}** - {occurences[keyword]} ({percentage}%)')
     md.text('')
 
 def add_version_history(md: markdown.Markdown, commits: List[commit.Commit]):
     md.text('Version history:')
-    last_version = None
     for commit in commits:
-        if last_version != commit.version:
-            link = commit.version.replace('.', '')
-            md.item(f'[**{commit.version}**](#{link})')
-        last_version = commit.version
+        link = commit.version.replace('.', '')
+        md.item(f'[**{commit.version}**](#{link})')
     md.text('')
 
 def execute(**kwargs):
@@ -85,6 +88,7 @@ def execute(**kwargs):
     if commits is None: return
 
     branches = client.branches()
+    difference = client.difference(commits[-1], commits[0])
 
     if kwargs['reverse']:
         commits.reverse()
@@ -97,7 +101,7 @@ def execute(**kwargs):
     add_current_version(md, commits)
     add_contributors(md, commits)
     add_project_timeframe(md, commits)
-    add_commit_frequency(md, commits)
+    add_code_frequency(md, commits, difference)
     add_commit_structure(md, commits)
     add_version_history(md, commits)
 
