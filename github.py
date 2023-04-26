@@ -98,6 +98,6 @@ class Github():
                 versions.append(entry)
             else:
                 for i in range(occurences[entry]):
-                    versions.append(f'{entry}-rc.{i+1}')
+                    versions.append(f'{entry}-rev.{i+1}')
 
         return versions

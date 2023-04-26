@@ -4,10 +4,10 @@ Remote address:
 
 Branches:
 * main (**9** commits)
-* **test [current]** (**12** commits)
+* **test [current]** (**13** commits)
 
 Current version:
-* **0.4.0-rc.3**
+* **0.5.0**
 
 Contributors:
 * **Ernest Szczepaniak**
@@ -16,17 +16,18 @@ Project timeframe:
 * **20.04.2023 - 26.04.2023** (7 days)
 
 Code frequency:
-* **12** commits (**1.71** / day)
+* **13** commits (**1.86** / day)
 * **10** files changed (**1.43** / day)
 * **425** insertions (**60.71** / day)
-* **339** deletions (**48.43** / day)
+* **361** deletions (**51.57** / day)
 
 Commit structure:
-* **fix** - 5 (41.67%)
-* **feat** - 4 (33.33%)
-* **style** - 3 (25.0%)
+* **feat** - 5 (38.46%)
+* **fix** - 5 (38.46%)
+* **style** - 3 (23.08%)
 
 Version history:
+* [**0.5.0**](#050)
 * [**0.4.0-rc.3**](#040-rc3)
 * [**0.4.0-rc.2**](#040-rc2)
 * [**0.4.0-rc.1**](#040-rc1)
@@ -41,6 +42,15 @@ Version history:
 * [**0.1.0**](#010)
 
 # Changelog
+## **[0.5.0](https://github.com/ErnestSzczepaniak/version/tree/6e61149)**
+* **[26.04.2023]** [[6e61149](https://github.com/ErnestSzczepaniak/version/commit/6e61149)] (feat) - add release candidates numbering (**Ernest Szczepaniak** @ 14:12:43)
+
+   ```
+   when there is a keyword that is not affecting MAJOR, MINOR or PATCH number,
+   all succesive releases will be marked as *-rc.X, where X is a number of
+   release with same features (but with different styling, performance etc ...).
+   ```
+
 ## **[0.4.0-rc.3](https://github.com/ErnestSzczepaniak/version/tree/fd6bd44)**
 * **[26.04.2023]** [[fd6bd44](https://github.com/ErnestSzczepaniak/version/commit/fd6bd44)] (style) - add tabs in COMMANDS dictionary (**Ernest Szczepaniak** @ 14:00:17)
 ## **[0.4.0-rc.2](https://github.com/ErnestSzczepaniak/version/tree/dd41587)**
