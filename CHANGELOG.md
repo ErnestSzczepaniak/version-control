@@ -4,10 +4,10 @@ Remote address:
 
 Branches:
 * main (**9** commits)
-* **test [current]** (**13** commits)
+* **test [current]** (**14** commits)
 
 Current version:
-* **0.5.0**
+* **0.5.0-rev.2**
 
 Contributors:
 * **Ernest Szczepaniak**
@@ -16,25 +16,26 @@ Project timeframe:
 * **20.04.2023 - 26.04.2023** (7 days)
 
 Code frequency:
-* **13** commits (**1.86** / day)
+* **14** commits (**2.0** / day)
 * **10** files changed (**1.43** / day)
 * **425** insertions (**60.71** / day)
-* **361** deletions (**51.57** / day)
+* **371** deletions (**53.0** / day)
 
 Commit structure:
-* **feat** - 5 (38.46%)
-* **fix** - 5 (38.46%)
-* **style** - 3 (23.08%)
+* **feat** - 5 (35.71%)
+* **fix** - 5 (35.71%)
+* **style** - 4 (28.57%)
 
 Version history:
-* [**0.5.0**](#050)
-* [**0.4.0-rc.3**](#040-rc3)
-* [**0.4.0-rc.2**](#040-rc2)
-* [**0.4.0-rc.1**](#040-rc1)
+* [**0.5.0-rev.2**](#050-rev2)
+* [**0.5.0-rev.1**](#050-rev1)
+* [**0.4.0-rev.3**](#040-rev3)
+* [**0.4.0-rev.2**](#040-rev2)
+* [**0.4.0-rev.1**](#040-rev1)
 * [**0.3.2**](#032)
 * [**0.3.1**](#031)
-* [**0.3.0-rc.2**](#030-rc2)
-* [**0.3.0-rc.1**](#030-rc1)
+* [**0.3.0-rev.2**](#030-rev2)
+* [**0.3.0-rev.1**](#030-rev1)
 * [**0.2.2**](#022)
 * [**0.2.1**](#021)
 * [**0.2.0**](#020)
@@ -42,7 +43,9 @@ Version history:
 * [**0.1.0**](#010)
 
 # Changelog
-## **[0.5.0](https://github.com/ErnestSzczepaniak/version/tree/6e61149)**
+## **[0.5.0-rev.2](https://github.com/ErnestSzczepaniak/version/tree/5864c0f)**
+* **[26.04.2023]** [[5864c0f](https://github.com/ErnestSzczepaniak/version/commit/5864c0f)] (style) - change *-rc.X to *-rev.X (**Ernest Szczepaniak** @ 14:17:21)
+## **[0.5.0-rev.1](https://github.com/ErnestSzczepaniak/version/tree/6e61149)**
 * **[26.04.2023]** [[6e61149](https://github.com/ErnestSzczepaniak/version/commit/6e61149)] (feat) - add release candidates numbering (**Ernest Szczepaniak** @ 14:12:43)
 
    ```
@@ -51,11 +54,11 @@ Version history:
    release with same features (but with different styling, performance etc ...).
    ```
 
-## **[0.4.0-rc.3](https://github.com/ErnestSzczepaniak/version/tree/fd6bd44)**
+## **[0.4.0-rev.3](https://github.com/ErnestSzczepaniak/version/tree/fd6bd44)**
 * **[26.04.2023]** [[fd6bd44](https://github.com/ErnestSzczepaniak/version/commit/fd6bd44)] (style) - add tabs in COMMANDS dictionary (**Ernest Szczepaniak** @ 14:00:17)
-## **[0.4.0-rc.2](https://github.com/ErnestSzczepaniak/version/tree/dd41587)**
+## **[0.4.0-rev.2](https://github.com/ErnestSzczepaniak/version/tree/dd41587)**
 * **[26.04.2023]** [[dd41587](https://github.com/ErnestSzczepaniak/version/commit/dd41587)] (style) - rework to FORMAT_TABLE and COMMANDS (**Ernest Szczepaniak** @ 13:50:05)
-## **[0.4.0-rc.1](https://github.com/ErnestSzczepaniak/version/tree/0c23698)**
+## **[0.4.0-rev.1](https://github.com/ErnestSzczepaniak/version/tree/0c23698)**
 * **[21.04.2023]** [[0c23698](https://github.com/ErnestSzczepaniak/version/commit/0c23698)] (feat) - add branches in changelog (**Ernest Szczepaniak** @ 13:11:09)
 
    ```
@@ -66,7 +69,7 @@ Version history:
 * **[21.04.2023]** [[36f14bf](https://github.com/ErnestSzczepaniak/version/commit/36f14bf)] (fix) - switch to another branch (**Ernest Szczepaniak** @ 12:51:02)
 ## **[0.3.1](https://github.com/ErnestSzczepaniak/version/tree/310b5b9)**
 * **[20.04.2023]** [[310b5b9](https://github.com/ErnestSzczepaniak/version/commit/310b5b9)] (fix) - try commit without body (**Ernest Szczepaniak** @ 12:53:39)
-## **[0.3.0-rc.2](https://github.com/ErnestSzczepaniak/version/tree/6abd722)**
+## **[0.3.0-rev.2](https://github.com/ErnestSzczepaniak/version/tree/6abd722)**
 * **[20.04.2023]** [[6abd722](https://github.com/ErnestSzczepaniak/version/commit/6abd722)] (style) - add styling (**Ernest Szczepaniak** @ 11:55:29)
 
    ```
@@ -77,7 +80,7 @@ Version history:
    dd2dadasd
    ```
 
-## **[0.3.0-rc.1](https://github.com/ErnestSzczepaniak/version/tree/9dab4b1)**
+## **[0.3.0-rev.1](https://github.com/ErnestSzczepaniak/version/tree/9dab4b1)**
 * **[20.04.2023]** [[9dab4b1](https://github.com/ErnestSzczepaniak/version/commit/9dab4b1)] (feat) - check commit spacing (**Ernest Szczepaniak** @ 11:54:45)
 
    ```

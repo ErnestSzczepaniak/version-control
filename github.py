@@ -101,3 +101,5 @@ class Github():
                     versions.append(f'{entry}-rev.{i+1}')
 
         return versions
+    
+'0.5.0.rev.1'
