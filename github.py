@@ -71,9 +71,9 @@ class Github():
             for line in lines[:-1]:
                 if '|' in line:
                     filename = line.split('|')[0].strip()
-                    number = line.split('|')[1].strip()
-                    number = number.split(' ')[0]
-                    files.append(f'{filename} ({number})')
+                    additions = line.count('+')
+                    deletions = line.count('-')
+                    files.append(f'{filename} [+{additions}, -{deletions}]')
             change = lines[-2]
             changes.append(change)
             files_changed.append(files)

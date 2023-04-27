@@ -151,8 +151,7 @@ def execute(**kwargs):
             md.text('   ```')
             md.text('')
 
-        md.text('')
-        md.text(f'   `{commit.files_changed} files changed ({commit.insertions} insertions, {commit.deletions} deletions):`')
+        md.text(f'   {commit.files_changed} files changed ({commit.insertions} insertions, {commit.deletions} deletions):')
         md.text('')
 
         for file in commit.files:
