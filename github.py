@@ -70,8 +70,10 @@ class Github():
             files = []
             for line in lines[:-1]:
                 if '|' in line:
-                    line = line.split('|')[0]
-                    files.append(line.strip())
+                    filename = line.split('|')[0].strip()
+                    number = line.split('|')[1].strip()
+                    number = number.split(' ')[0]
+                    files.append(f'{filename} ({number})')
             change = lines[-2]
             changes.append(change)
             files_changed.append(files)
