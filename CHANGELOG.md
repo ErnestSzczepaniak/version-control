@@ -10,11 +10,11 @@ Remote address:
 * **https://github.com/ErnestSzczepaniak/version**
 
 Branches:
-* **main [current]** (**17** commits)
+* **main [current]** (**18** commits)
 * test (**15** commits)
 
 Current version:
-* **0.7.0**
+* **0.8.0**
 
 Contributors:
 * **Ernest Szczepaniak**
@@ -25,15 +25,16 @@ Project timeframe:
 * **20.04.2023 - 27.04.2023** (8 days)
 
 Code frequency:
-* **17** commits (**2.12** / day)
+* **18** commits (**2.25** / day)
 
 Commit structure:
-* **feat** - 7 (41.18%)
-* **fix** - 6 (35.29%)
-* **style** - 4 (23.53%)
+* **feat** - 8 (44.44%)
+* **fix** - 6 (33.33%)
+* **style** - 4 (22.22%)
 
 # Version history
 
+* [**0.8.0**](#080)
 * [**0.7.0**](#070)
 * [**0.6.0**](#060)
 * [**0.5.1**](#051)
@@ -54,6 +55,13 @@ Commit structure:
 
 # Changelog
 
+## **[0.8.0](https://github.com/ErnestSzczepaniak/version/tree/45c6153)**
+* **[27.04.2023]** [[45c6153](https://github.com/ErnestSzczepaniak/version/commit/45c6153)] (feat) - add edit number to each file in files changed section (**Ernest Szczepaniak** @ 10:47:57)
+
+   `2 files changed (88 insertions, 69 deletions):`
+
+   * `CHANGELOG.md (151)`
+   * `github.py (6)`
 ## **[0.7.0](https://github.com/ErnestSzczepaniak/version/tree/2a05e5e)**
 * **[27.04.2023]** [[2a05e5e](https://github.com/ErnestSzczepaniak/version/commit/2a05e5e)] (feat) - add files changed tracker with reworked insertions. (**Ernest Szczepaniak** @ 10:25:22)
 
