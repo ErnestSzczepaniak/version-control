@@ -13,7 +13,7 @@ FORMAT_TABLE = {
 }
 
 class Commit():
-    def __init__(self, version: str, header: str, body: List[str]):
+    def __init__(self, version: str, header: str, body: List[str], changes: str, files: List[str]):
         self.version = version
         hash, datetime, author, subject = header.split(' | ')
         self.body = body
@@ -21,6 +21,18 @@ class Commit():
         self.date, self.time = datetime.split(', ')
         self.author = author
         self.keyword, self.subject = subject.split(': ')
+        self.insertions = 0
+        self.deletions = 0
+
+        elements = changes[1:].split(', ')
+        for element in elements:
+            if 'insertion' in element or 'insertions' in element:
+                self.insertions = int(element.split(' ')[0])
+            elif 'deletion' in elements or 'deletions' in element:
+                self.deletions = int(element.split(' ')[0])
+
+        self.files_changed = len(files)
+        self.files = files
 
     def format_as(self, format: str, schema: List[str]):
         if format == 'table':

@@ -50,16 +50,16 @@ def add_project_timeframe(md: markdown.Markdown, commits: List[commit.Commit]):
     md.item(f'**{date_start} - {date_end}** ({days} days)')
     md.text('')
 
-def add_code_frequency(md: markdown.Markdown, commits: List[commit.Commit], difference):
+def add_code_frequency(md: markdown.Markdown, commits: List[commit.Commit]):
     md.text('Code frequency:')
     date_start = commits[-1].date
     date_end = commits[0].date
     period = datetime.datetime.strptime(date_end, '%d.%m.%Y') - datetime.datetime.strptime(date_start, '%d.%m.%Y')
     period = period.days + 1
     md.item(f'**{len(commits)}** commits (**{round(len(commits) / period, 2)}** / day)')
-    md.item(f'**{difference.files_changed}** files changed (**{round(difference.files_changed / period, 2)}** / day)')
-    md.item(f'**{difference.insertions}** insertions (**{round(difference.insertions / period, 2)}** / day)')
-    md.item(f'**{difference.deletions}** deletions (**{round(difference.deletions / period, 2)}** / day)')
+    # md.item(f'**{difference.files}** files changed (**{round(difference.files / period, 2)}** / day)')
+    # md.item(f'**{difference.insertions}** insertions (**{round(difference.insertions / period, 2)}** / day)')
+    # md.item(f'**{difference.deletions}** deletions (**{round(difference.deletions / period, 2)}** / day)')
     md.text('')
 
 def add_commit_structure(md: markdown.Markdown, commits: List[commit.Commit]):
@@ -92,7 +92,6 @@ def execute(**kwargs):
     if commits is None: return
 
     branches = client.branches()
-    difference = client.difference(commits[-1], commits[0])
 
     if kwargs['reverse']:
         commits.reverse()
@@ -100,28 +99,35 @@ def execute(**kwargs):
     md = markdown.Markdown()
 
     md.h1('Table of contents')
-    md.text('This changelog was generated with `version` software tool')
+    md.text('')
+
     md.item('[Overview](#overview)')
     md.item('[Statistics](#statistics)')
     md.item('[Version history](#version-history)')
     md.item('[Changelog](#changelog)')
 
     md.h1('Overview')
+    md.text('')
+
     add_remote_address(md, url)
-    add_contributors(md, commits)
     add_branch_list(md, branches)
     add_current_version(md, commits)
-    
+    add_contributors(md, commits)
 
     md.h1('Statistics')
+    md.text('')
+
     add_project_timeframe(md, commits)
-    add_code_frequency(md, commits, difference)
+    add_code_frequency(md, commits)
     add_commit_structure(md, commits)
 
     md.h1('Version history')
+    md.text('')
+
     add_version_history(md, commits)
 
     md.h1('Changelog')
+    md.text('')
 
     last_version = None
 
@@ -145,8 +151,14 @@ def execute(**kwargs):
             md.text('   ```')
             md.text('')
 
-        last_version = commit.version
+        md.text('')
+        md.text(f'   `{commit.files_changed} files changed ({commit.insertions} insertions, {commit.deletions} deletions):`')
+        md.text('')
 
+        for file in commit.files:
+            md.text(f'   * `{file}`')
+
+        last_version = commit.version
 
     if kwargs['output'] == None:
         print(md.string)

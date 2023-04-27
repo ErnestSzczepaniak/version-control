@@ -2,12 +2,11 @@ import subprocess, pathlib
 from typing import List
 from commit import Commit
 from branch import Branch
-from difference import Difference
 
 COMMANDS = {
     'branches':     'git -C {path} branch',
     'commits':      'git -C {path} rev-list --count {branch}',
-    'difference':   'git -C {path} diff {commit_start} {commit_stop} --stat',
+    'show':         'git -C {path} show {hash} --stat',
     'url':          'git -C {path} remote get-url origin',
     'log':          "git -C {path} log --pretty=format:'%h | %ad | %an | %s $ %b' --date=format:'%d.%m.%Y, %H:%M:%S'"
 }
@@ -30,11 +29,6 @@ class Github():
             branch.commits = int(self.command_execute('commits', branch=branch.name)[0])
 
         return branches
-
-    def difference(self, commit_start, commit_stop):
-        lines = self.command_execute('difference', commit_start=commit_start.hash, commit_stop=commit_stop.hash)
-        if lines == []: return None
-        return Difference(lines[-2])
 
     def url(self):
         response = self.command_execute('url')[0]
@@ -67,7 +61,22 @@ class Github():
 
         versions = self.versions(keywords, major, minor, patch)
 
-        return [Commit(version, header, body) for version, (header, body) in zip(versions, items.items())]
+        files_changed = []
+        changes = []
+
+        for item in items:
+            hash = item.split(' | ')[0]
+            lines = self.command_execute('show', hash=hash)
+            files = []
+            for line in lines[:-1]:
+                if '|' in line:
+                    line = line.split('|')[0]
+                    files.append(line.strip())
+            change = lines[-2]
+            changes.append(change)
+            files_changed.append(files)
+
+        return [Commit(version, header, body, change, files) for version, (header, body), change, files in zip(versions, items.items(), changes, files_changed)]
 
     def versions(self, keywords: List[str], major: str = 'break', minor: str = 'feat', patch: str = 'fix'):
         version = [0, 0, 0]
