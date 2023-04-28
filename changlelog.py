@@ -57,9 +57,19 @@ def add_code_frequency(md: markdown.Markdown, commits: List[commit.Commit]):
     period = datetime.datetime.strptime(date_end, '%d.%m.%Y') - datetime.datetime.strptime(date_start, '%d.%m.%Y')
     period = period.days + 1
     md.item(f'**{len(commits)}** commits (**{round(len(commits) / period, 2)}** / day)')
-    # md.item(f'**{difference.files}** files changed (**{round(difference.files / period, 2)}** / day)')
-    # md.item(f'**{difference.insertions}** insertions (**{round(difference.insertions / period, 2)}** / day)')
-    # md.item(f'**{difference.deletions}** deletions (**{round(difference.deletions / period, 2)}** / day)')
+
+    total_files_changed = 0
+    total_insertions = 0
+    total_deletions = 0
+
+    for commit in commits:
+        total_files_changed += commit.total_files_changed
+        total_insertions += commit.total_insertions
+        total_deletions += commit.total_deletions
+
+    md.item(f'**{total_files_changed}** files changed (**{round(total_files_changed / period, 2)}** / day)')
+    md.item(f'**{total_insertions}** insertions (**{round(total_insertions / period, 2)}** / day)')
+    md.item(f'**{total_deletions}** deletions (**{round(total_deletions / period, 2)}** / day)')
     md.text('')
 
 def add_commit_structure(md: markdown.Markdown, commits: List[commit.Commit]):
@@ -141,7 +151,7 @@ def execute(**kwargs):
 
         link_commit = url + '/commit/' + commit.hash
 
-        md.item(f'**[{commit.date}]** [[{commit.hash}]({link_commit})] ({commit.keyword}) - {commit.subject} (**{commit.author}** @ {commit.time})')
+        md.item(f'[{commit.date}] [[{commit.hash}]({link_commit})] ({commit.keyword}) - {commit.subject} (**{commit.author}** @ {commit.time})')
 
         if len(commit.body) > 1:
             md.text('')
@@ -152,11 +162,11 @@ def execute(**kwargs):
             md.text('')
 
         md.text('')
-        md.text(f'   {commit.files_changed} files changed ({commit.insertions} insertions, {commit.deletions} deletions):')
+        md.text(f'   {commit.total_files_changed} files changed ({commit.total_insertions} insertions, {commit.total_deletions} deletions):')
         md.text('')
 
-        for file in commit.files:
-            md.text(f'   * `{file}`')
+        for file, insertions, deletions in zip(commit.files_changed, commit.insertions, commit.deletions):
+            md.text(f'   * `{file} [+{insertions}, -{deletions}]`')
 
         last_version = commit.version
 

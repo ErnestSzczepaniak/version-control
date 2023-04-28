@@ -1,6 +1,7 @@
 from typing import List
 from colorama import Fore
 import json
+from dataclasses import dataclass, field
 
 FORMAT_TABLE = {
     'version': Fore.YELLOW + '{:<11}' + Fore.RESET,
@@ -12,27 +13,22 @@ FORMAT_TABLE = {
     'subject': '{:<50}'
 }
 
+@dataclass
 class Commit():
-    def __init__(self, version: str, header: str, body: List[str], changes: str, files: List[str]):
-        self.version = version
-        hash, datetime, author, subject = header.split(' | ')
-        self.body = body
-        self.hash = hash
-        self.date, self.time = datetime.split(', ')
-        self.author = author
-        self.keyword, self.subject = subject.split(': ')
-        self.insertions = 0
-        self.deletions = 0
-
-        elements = changes[1:].split(', ')
-        for element in elements:
-            if 'insertion' in element or 'insertions' in element:
-                self.insertions = int(element.split(' ')[0])
-            elif 'deletion' in elements or 'deletions' in element:
-                self.deletions = int(element.split(' ')[0])
-
-        self.files_changed = len(files)
-        self.files = files
+    version: str = ''
+    hash: str = ''
+    date: str = ''
+    time: str = ''
+    author: str = ''
+    keyword: str = ''
+    subject: str = ''
+    body: List[str] = field(default_factory=lambda : [])
+    files_changed: List[str] = field(default_factory=lambda : [])
+    total_files_changed: int = 0
+    insertions: List[int] = field(default_factory=lambda : [])
+    total_insertions: int = 0
+    deletions: List[int] = field(default_factory=lambda : [])
+    total_deletions: int = 0
 
     def format_as(self, format: str, schema: List[str]):
         if format == 'table':
