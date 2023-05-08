@@ -1,18 +1,18 @@
-prepare:
+SOURCES := $(shell find . -name '*.py')
+
+configure:
 	pip install pyinstaller
 
 clean:
 	rm -rf build dist version.spec
 
-build:
-	pyinstaller --onefile main.py
+build: SOURCES
+	pyinstaller main.spec
 
-install: build
+install:
 	cp dist/version /usr/local/bin
 
 uninstall:
-rm -rf /usr/local/bin/version
+	rm -rf /usr/local/bin/version
 
-reinstall: build install
-
-.PHONY: prepare clean build install uninstall reinstall
+.PHONY: SOURCES

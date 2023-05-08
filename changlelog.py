@@ -7,7 +7,7 @@ ARGUMENTS = [
     ['--major',     {'type': str,   'default': 'break',         'help': 'Major version keyword (default: break)'}],
     ['--minor',     {'type': str,   'default': 'feat',          'help': 'Minor version keyword (default: feat)'}],
     ['--patch',     {'type': str,   'default': 'fix',           'help': 'Patch version keyword (default: fix)'}],
-    ['--reverse',   {'type': bool,  'default': True,            'help': 'Reverse order of commits (default: False)'}],
+    ['--reverse',   {'type': bool,  'default': True,            'help': 'Reverse order of commits (default: True)'}],
     ['--output',    {'type': str,   'default': 'CHANGELOG.md',  'help': 'Output file (default: CHANGELOG.md)'}]
 ]
 

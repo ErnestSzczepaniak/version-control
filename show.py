@@ -9,7 +9,7 @@ ARGUMENTS = [
 
 def execute(**kwargs):
 
-    client = github.Github(kwargs['path'])
+    client = github.Client(kwargs['path'])
 
     commits = client.commits(kwargs['major'], kwargs['minor'], kwargs['patch'])
     
