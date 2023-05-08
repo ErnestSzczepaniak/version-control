@@ -7,7 +7,7 @@ clean:
 	rm -rf build dist version.spec
 
 build: SOURCES
-	pyinstaller main.spec
+	python3 -m PyInstaller main.py --onefile --name version
 
 install:
 	cp dist/version /usr/local/bin
