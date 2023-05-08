@@ -14,3 +14,4 @@ uninstall:
 	rm -rf /usr/local/bin/version
 
 .PHONY: SOURCES
+
