@@ -23,6 +23,10 @@ class Markdown():
         item = self.parse_item(item)        
         return self.add_line('### ' + item)
 
+    def h4(self, item):
+        item = self.parse_item(item)
+        return self.add_line('#### ' + item)
+
     def item(self, item):
         item = self.parse_item(item)
         return self.add_line('* ' + item)

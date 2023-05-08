@@ -1,15 +1,91 @@
-import subprocess, pathlib, re
+import subprocess, re, json
 from typing import List
-from commit import Commit
-from branch import Branch
+from colorama import Fore
+from dataclasses import dataclass, field
 
-COMMANDS = {
-    'branches':     'git -C {path} branch',
-    'commits':      'git -C {path} rev-list --count {branch}',
-    'show':         'git -C {path} show {hash} --numstat',
-    'url':          'git -C {path} remote get-url origin',
-    'log':          "git -C {path} log --pretty=format:'%h | %ad | %an | %s | %b $' --date=format:'%d.%m.%Y %H:%M:%S'"
+# /* ---------------------------------------------| datatypes |--------------------------------------------- */
+
+FORMAT_TABLE = {
+    'version': Fore.YELLOW + '{:<11}' + Fore.RESET,
+    'hash': '{:<7}',
+    'date': '{:<10}',
+    'time': '{:<8}',
+    'keyword': '{:<8}',
+    'author': '{:<25}',
+    'subject': '{:<50}'
 }
+
+@dataclass
+class Change():
+    filename: str = ''
+    insertions: int = 0
+    deletions: int = 0
+
+@dataclass
+class Commit():
+    version: str = ''
+    hash: str = ''
+    date: str = ''
+    time: str = ''
+    author: str = ''
+    keyword: str = ''
+    subject: str = ''
+    body: List[str] = field(default_factory=lambda : [])
+    changes: List[Change] = field(default_factory=lambda : [])
+
+    def format_as(self, format: str, schema: List[str]):
+        if format == 'table':
+            return '  '.join(FORMAT_TABLE[key].format(getattr(self, key)) for key in schema)
+        elif format == 'csv':
+            return ', '.join([getattr(self, key) for key in schema])
+        elif format == 'json':
+            return json.dumps({key: getattr(self, key) for key in schema}, indent=4)
+        else:
+            raise ValueError(f"Format '{format}' is not supported")
+
+    def match(self, filter):
+        for key, value in filter.items():
+            if value == '*': continue
+            if getattr(self, key) != value:
+                return False
+        return True
+
+@dataclass
+class Branch():
+    name: str = ''
+    active: bool = False
+    commits: int = 0
+
+
+# /* ---------------------------------------------| api |--------------------------------------------- */
+
+@dataclass
+class Api():
+    path: str = ''
+
+    def execute(self, syntax: str, split='\n', reverse=False) -> List[str]:
+        output = subprocess.check_output(syntax, shell=True).decode()
+        if output == '': return []
+        output = output.split(split)
+        if reverse: output.reverse()
+        return output
+
+    def branch(self):
+        return self.execute(f'git -C {self.path} branch')[:-1]
+    
+    def rev_list(self, branch: str):
+        return self.execute(f'git -C {self.path} rev-list --count {branch}')
+    
+    def remote_url(self):
+        return self.execute(f'git -C {self.path} remote get-url origin')[0]
+    
+    def log(self):
+        return self.execute(f"git -C {self.path} log --pretty=format:'%h | %ad | %an | %s | %b $' --date=format:'%d.%m.%Y %H:%M:%S'", split='$', reverse=True)[1:]
+    
+    def show(self, hash: str):
+        return self.execute(f'git -C {self.path} show {hash} --numstat')
+
+# /* ---------------------------------------------| client |--------------------------------------------- */
 
 PATTERN_LOG = re.compile(
     r'(?P<hash>[0-9a-f]{7}) \| '
@@ -23,41 +99,57 @@ PATTERN_SHOW = re.compile(
     r'(?P<insertions>\d+)\t(?P<deletions>\d+)\t(?P<filename>.*)'
 )
 
-class Github():
-    def __init__(self, path: str):
-        self.path = pathlib.Path(path).absolute()
+PATTERN_BRANCHES = re.compile(
+    r'(?P<active>\*)? (?P<name>.+)'
+)
 
-    def command_execute(self, command: str, split='\n', reverse=False, **kwargs) -> List[str]:
-        syntax = COMMANDS[command].format(path=self.path, **kwargs)
-        output = subprocess.check_output(syntax, shell=True).decode()
-        if output == '': return []
-        output = output.split(split)
-        if reverse: output.reverse()
-        return output
+PATTERN_REMOTE_URL = re.compile(
+    r'(?P<address>.+):(?P<username>.+)\/(?P<repository>.+)(\.git)'
+)
+
+class Client(Api):
+    def __init__(self, path: str):
+        self.api = Api(path)
 
     def branches(self):
-        lines = self.command_execute('branches')[:-1]
-        branches = [Branch(line) for line in lines]
+
+        response = self.api.branch()
+
+        branches = []
+
+        matches = PATTERN_BRANCHES.findall('\n'.join(response))
+
+        for match in matches:
+
+            branch = Branch(active=match[0] == '*', name=match[1])
+            branches.append(branch)
 
         for branch in branches:
-            branch.commits = int(self.command_execute('commits', branch=branch.name)[0])
+            branch.commits = int(self.api.rev_list(branch.name)[0])
 
         return branches
 
-    def url(self):
-        response = self.command_execute('url')[0]
-        response = response[response.find(':')+1:-4]
-        return f'https://github.com/{response}'
+    def url(self) -> str:
+
+        response = self.api.remote_url()
+
+        match = PATTERN_REMOTE_URL.match(response)
+
+        if match is None: return ''
+
+        response = match.groupdict()
+
+        return f'https://github.com/{response["username"]}/{response["repository"]}'
+
 
     def create_commits(self):
 
-        lines = self.command_execute('log', split='$', reverse=True)[:-1]
+        lines = self.api.log()
 
         commits = []
 
         for line in lines:
             
-            if len(line) == 0: continue
             if line[0] == '\n': line = line[1:]
             
             match = PATTERN_LOG.match(line)
@@ -79,31 +171,30 @@ class Github():
         commits = self.create_commits()
 
         self.add_versions(commits, major, minor, patch)
-        self.add_modyfications(commits)
+        self.add_changes(commits)
 
         return commits
 
-    def add_modyfications(self, commits: List[Commit]):
+    def add_changes(self, commits: List[Commit]):
 
         for commit in commits:
 
-            lines = self.command_execute('show', hash=commit.hash)
+            lines = self.api.show(commit.hash)
 
             matches = PATTERN_SHOW.findall('\n'.join(lines))
 
             for match in matches:
 
-                commit.files_changed.append(match[2])
-                commit.insertions.append(int(match[0]))
-                commit.total_insertions += int(match[0])
-                commit.deletions.append(int(match[1]))
-                commit.total_deletions += int(match[1])
+                change = Change(filename=match[2], insertions=int(match[0]), deletions=int(match[1]))
 
-            commit.total_files_changed = len(commit.files_changed)
+                commit.changes.append(change)
+
 
     def add_versions(self, commits: List[Commit], major: str = 'break', minor: str = 'feat', patch: str = 'fix'):
+
         version = [0, 0, 0]
         result = []
+
         for commit in commits:
             if commit.keyword == patch:
                 version[2] += 1

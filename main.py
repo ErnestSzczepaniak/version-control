@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # PYTHON_ARGCOMPLETE_OK
 
-import github, pathlib, argparse, show, find, changlelog
+import argparse, show, find, changlelog
 from argparse import RawTextHelpFormatter
-import argcomplete
 
 # /* ---------------------------------------------| help |--------------------------------------------- */
 
