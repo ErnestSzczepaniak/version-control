@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # PYTHON_ARGCOMPLETE_OK
 
-import argparse, show, find, changlelog
+import argparse, show, find, changelog
 from argparse import RawTextHelpFormatter
 
 # /* ---------------------------------------------| help |--------------------------------------------- */
@@ -53,7 +53,7 @@ subparser_operation = parser.add_subparsers(title='operations', help='operations
 
 add_subparser(subparser_operation, 'find', 'Find commit(s) in git repository', find.ARGUMENTS, find.execute)
 add_subparser(subparser_operation, 'show', 'Show git repository version', show.ARGUMENTS, show.execute)
-add_subparser(subparser_operation, 'changelog', 'Show git repository changelog', changlelog.ARGUMENTS, changlelog.execute)
+add_subparser(subparser_operation, 'changelog', 'Show git repository changelog', changelog.ARGUMENTS, changelog.execute)
 
 args = parser.parse_args()
 

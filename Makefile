@@ -3,10 +3,8 @@ SOURCES := $(shell find . -name '*.py')
 configure:
 	pip install pyinstaller
 
-clean:
-	rm -rf build dist version.spec
-
 build: SOURCES
+	rm -rf build dist version.spec
 	python3 -m PyInstaller main.py --onefile --name version
 
 install:
