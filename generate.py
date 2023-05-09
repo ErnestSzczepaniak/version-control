@@ -100,18 +100,17 @@ def add_version_history(md: mark.Markdown, commits: List[Commit]):
             groups[header] = []
         groups[header].append(commit)
 
-
     max_items = max(len(groups[key]) for key in groups)
 
     table_rows = '| Feature | Fixes | ' + '| ' * (max_items - 2 ) + '|'
 
-    cendating_rows = '| :- ' + '| :- ' * max_items + '|'
+    cendating_rows = '| -: ' + '| :- ' * max_items + '|'
 
     md.text(table_rows)
     md.text(cendating_rows)
 
     for key in groups:
-        row = f'| {groups[key][0].subject} | '
+        row = f'| {groups[key][-1].subject} | '
         for commit in groups[key]:
             link = commit.version.replace('.', '')
             row += f' [{commit.version}](#{link}) |'
