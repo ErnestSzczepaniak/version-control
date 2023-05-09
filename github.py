@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 # /* ---------------------------------------------| datatypes |--------------------------------------------- */
 
 FORMAT_TABLE = {
-    'version': Fore.YELLOW + '{:<11}' + Fore.RESET,
+    'version': Fore.YELLOW + '{:<13}' + Fore.RESET,
     'hash': '{:<7}',
     'date': '{:<10}',
     'time': '{:<8}',
@@ -59,9 +59,9 @@ class Branch():
 
 # /* ---------------------------------------------| api |--------------------------------------------- */
 
-@dataclass
 class Api():
-    path: str = ''
+    def __init__(self, path: str):
+        self.path = path
 
     def execute(self, syntax: str, split='\n', reverse=False) -> List[str]:
         output = subprocess.check_output(syntax, shell=True).decode()

@@ -1,14 +1,13 @@
-import github, mark, datetime
+import github, mark, datetime, pathlib, arguments
 from typing import List
 from github import Commit, Branch
 
 ARGUMENTS = [
-    ['--path',      {'type': str,   'default': '.',             'help': 'Path to git repository (default: current directory)'}],
-    ['--major',     {'type': str,   'default': 'break',         'help': 'Major version keyword (default: break)'}],
-    ['--minor',     {'type': str,   'default': 'feat',          'help': 'Minor version keyword (default: feat)'}],
-    ['--patch',     {'type': str,   'default': 'fix',           'help': 'Patch version keyword (default: fix)'}],
-    ['--reverse',   {'type': bool,  'default': True,            'help': 'Reverse order of commits (default: True)'}],
-    ['--output',    {'type': str,   'default': 'CHANGELOG.md',  'help': 'Output file (default: CHANGELOG.md)'}]
+    arguments.PATH,
+    arguments.MAJOR,
+    arguments.MINOR,
+    arguments.PATCH,
+    arguments.OUTPUT
 ]
 
 def add_remote_address(md: mark.Markdown, remote_address: str):
@@ -93,18 +92,19 @@ def add_version_history(md: mark.Markdown, commits: List[Commit]):
 
 def execute(**kwargs):
 
-    client = github.Client(kwargs['path'])
+    path_repository = pathlib.Path(kwargs['path']).absolute().as_posix()
+
+    client = github.Client(path_repository)
 
     url = client.url()
 
     commits = client.commits(kwargs['major'], kwargs['minor'], kwargs['patch'])
 
     if commits is None: return
+    
+    commits.reverse()
 
     branches = client.branches()
-
-    if kwargs['reverse']:
-        commits.reverse()
 
     md = mark.Markdown()
 

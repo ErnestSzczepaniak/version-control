@@ -1,6 +1,7 @@
 SOURCES := $(shell find . -name '*.py')
 
 configure:
+	apt install python3-pip
 	pip install pyinstaller
 
 build: SOURCES
