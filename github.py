@@ -33,7 +33,7 @@ class Commit():
     body: List[str] = field(default_factory=lambda : [])
     changes: List[Change] = field(default_factory=lambda : [])
 
-    def format_as(self, format: str, schema: List[str]):
+    def show_as(self, format: str, schema: List[str]):
         if format == 'table':
             return '  '.join(FORMAT_TABLE[key].format(getattr(self, key)) for key in schema)
         elif format == 'csv':
@@ -46,7 +46,11 @@ class Commit():
     def match(self, filter):
         for key, value in filter.items():
             if value == '*': continue
-            if getattr(self, key) != value:
+            elif '*' in value:
+                position = value.index('*')
+                if value[:position] not in getattr(self, key): return False
+                if value[position + 1:] not in getattr(self, key): return False
+            elif getattr(self, key) != value:
                 return False
         return True
 
@@ -86,7 +90,7 @@ class Api():
         return self.execute(f'git -C {self.path} remote get-url origin')[0]
     
     def log(self):
-        return self.execute(f"git -C {self.path} log --pretty=format:'%h | %ad | %an | %s | %b $' --date=format:'%d.%m.%Y %H:%M:%S'", split='$', reverse=True)[1:]
+        return self.execute(f"git -C {self.path} log --pretty=format:\"%h | %ad | %an | %s | %b $\" --date=format:\"%d.%m.%Y %H:%M:%S\"", split='$', reverse=True)[1:]
     
     def show(self, hash: str):
         return self.execute(f'git -C {self.path} show {hash} --numstat')

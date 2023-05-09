@@ -33,5 +33,5 @@ def execute(**kwargs):
 
         if commit.match(filter):
 
-            print(commit.format_as(kwargs['format'], kwargs['schema']))
+            print(commit.show_as(kwargs['format'], kwargs['schema']))
 

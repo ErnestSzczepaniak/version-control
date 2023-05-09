@@ -90,10 +90,32 @@ def add_commit_structure(md: mark.Markdown, commits: List[Commit]):
     md.text('')
 
 def add_version_history(md: mark.Markdown, commits: List[Commit]):
+    groups = {}
+
     for commit in commits:
-        link = commit.version.replace('.', '')
-        md.item(f'[{commit.version}](#{link})')
-    md.text('')
+        version = commit.version
+        major, minor = version.split('.')[:2]
+        header = f'{major}.{minor}'
+        if header not in groups:
+            groups[header] = []
+        groups[header].append(commit)
+
+
+    max_items = max(len(groups[key]) for key in groups)
+
+    table_rows = '| Feature | Fixes | ' + '| ' * (max_items - 2 ) + '|'
+
+    cendating_rows = '| :- ' + '| :- ' * max_items + '|'
+
+    md.text(table_rows)
+    md.text(cendating_rows)
+
+    for key in groups:
+        row = f'| {groups[key][0].subject} | '
+        for commit in groups[key]:
+            link = commit.version.replace('.', '')
+            row += f' [{commit.version}](#{link}) |'
+        md.text(row)
 
 def execute(**kwargs):
 
