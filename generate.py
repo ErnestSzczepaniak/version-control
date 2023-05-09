@@ -10,9 +10,14 @@ ARGUMENTS = [
     arguments.OUTPUT
 ]
 
-def add_remote_address(md: mark.Markdown, remote_address: str):
+def add_remote_address(md: mark.Markdown, url: github.Url):
     md.h4('Remote address:')
-    md.item(f'{remote_address}')
+    md.item(f'https://github.com/{url.username}/{url.repository}')
+    md.text('')
+
+def add_connection_protocol(md: mark.Markdown, url: github.Url):
+    md.h4('Connection protocol:')
+    md.item(f'{url.protocol}')
     md.text('')
 
 def add_branch_list(md: mark.Markdown, branches: List[Branch]):
@@ -113,6 +118,7 @@ def execute(**kwargs):
 
     md.item('[Overview](#overview)')
     md.text('  * [Remote address](#remote-address)')
+    md.text('  * [Connection protocol](#connection-protocol)')
     md.text('  * [Branches](#branches)')
     md.text('  * [Current version](#current-version)')
     md.text('  * [Contributors](#contributors)')
@@ -129,6 +135,7 @@ def execute(**kwargs):
     md.text('')
 
     add_remote_address(md, url)
+    add_connection_protocol(md, url)
     add_branch_list(md, branches)
     add_current_version(md, commits)
     add_contributors(md, commits)
@@ -154,11 +161,11 @@ def execute(**kwargs):
 
         if last_version != commit.version:
 
-            link_tree = url + '/tree/' + commit.hash
+            link_tree = f'https://github.com/{url.username}/{url.repository}/tree/{commit.hash}'
 
             md.h2(f'[{commit.version}]({link_tree})')
 
-        link_commit = url + '/commit/' + commit.hash
+        link_commit = f'https://github.com/{url.username}/{url.repository}/commit/{commit.hash}'
 
         md.item(f'[{commit.date}] [[{commit.hash}]({link_commit})] ({commit.keyword}) - {commit.subject} ({commit.author} @ {commit.time})')
 

@@ -56,6 +56,12 @@ class Branch():
     active: bool = False
     commits: int = 0
 
+@dataclass
+class Url():
+    protocol: str = ''
+    domain: str = ''
+    username: str = ''
+    repository: str = ''
 
 # /* ---------------------------------------------| api |--------------------------------------------- */
 
@@ -103,8 +109,12 @@ PATTERN_BRANCHES = re.compile(
     r'(?P<active>\*)? (?P<name>.+)'
 )
 
-PATTERN_REMOTE_URL = re.compile(
-    r'(?P<address>.+):(?P<username>.+)\/(?P<repository>.+)(\.git)'
+PATTERN_REMOTE_URL_HTTPS = re.compile(
+    r'https:\/\/github.com\/(?P<username>.+)\/(?P<repository>.+)(\.git)'
+)
+
+PATTERN_REMOTE_URL_SSH = re.compile(
+    r'git@github.com:(?P<username>.+)\/(?P<repository>.+)(\.git)'
 )
 
 class Client(Api):
@@ -129,17 +139,22 @@ class Client(Api):
 
         return branches
 
-    def url(self) -> str:
+    def url(self) -> Url:
 
         response = self.api.remote_url()
 
-        match = PATTERN_REMOTE_URL.match(response)
+        candidate = {'domain': 'github.com'}
 
-        if match is None: return ''
+        if match := PATTERN_REMOTE_URL_HTTPS.match(response):
+            candidate = match.groupdict()
+            candidate['protocol'] = 'https'
+        elif match := PATTERN_REMOTE_URL_SSH.match(response):
+            candidate = match.groupdict()
+            candidate['protocol'] = 'ssh'
 
-        response = match.groupdict()
+        if match is None: return Url()
 
-        return f'https://github.com/{response["username"]}/{response["repository"]}'
+        return Url(**candidate)
 
 
     def create_commits(self):
