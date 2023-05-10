@@ -1,0 +1,24 @@
+#/usr/bin/env bash
+
+_completions()
+{
+    if [ "${COMP_CWORD}" == "1" ]; then
+        COMPREPLY=($(compgen -W "find generate show sign" -- "${COMP_WORDS[COMP_CWORD]}"))
+    else
+        WORDS=()
+
+        if [ "${COMP_WORDS[1]}" == "find" ]; then
+            WORDS=("--path --major --minor --patch --format --schema --version --hash --date --time --keyword --author")
+        elif [ "${COMP_WORDS[1]}" == "generate" ]; then
+            WORDS=("--path --major --minor --patch --output")
+        elif [ "${COMP_WORDS[1]}" == "show" ]; then
+            WORDS=("--path --major --minor --patch")
+        elif [ "${COMP_WORDS[1]}" == "sign" ]; then
+            WORDS=("--path --major --minor --patch --file")
+        fi
+
+        COMPREPLY=($(compgen -W "${WORDS[*]}" -- "${COMP_WORDS[COMP_CWORD]}"))
+    fi
+}
+
+complete -F _completions version

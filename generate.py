@@ -89,7 +89,20 @@ def add_commit_structure(md: mark.Markdown, commits: List[Commit]):
         md.item(f'{keyword} - {occurences[keyword]} ({percentage}%)')
     md.text('')
 
-def add_version_history(md: mark.Markdown, commits: List[Commit]):
+def add_version_oldest(md: mark.Markdown, commits: List[Commit]):
+    md.h4('Oldest version:')
+    link = commits[-1].version.replace('.', '')
+    md.item(f'[{commits[-1].version}](#{link})')
+    md.text('')
+
+def add_version_newest(md: mark.Markdown, commits: List[Commit]):
+    md.h4('Newest version:')
+    link = commits[0].version.replace('.', '')
+    md.item(f'[{commits[0].version}](#{link})')
+    md.text('')
+
+def add_version_table(md: mark.Markdown, commits: List[Commit]):
+    md.h4('Version table based on new features:')
     groups = {}
 
     for commit in commits:
@@ -104,7 +117,7 @@ def add_version_history(md: mark.Markdown, commits: List[Commit]):
 
     table_rows = '| Feature | Fixes | ' + '| ' * (max_items - 2 ) + '|'
 
-    cendating_rows = '| -: ' + '| :- ' * max_items + '|'
+    cendating_rows = '| -: ' + '| :-: ' * max_items + '|'
 
     md.text(table_rows)
     md.text(cendating_rows)
@@ -155,6 +168,10 @@ def execute(**kwargs):
     md.text('  * [Commit structure](#commit-structure)')
 
     md.item('[Version history](#version-history)')
+    md.text('  * [Newest version](#newest-version)')
+    md.text('  * [Oldest version](#oldest-version)')
+    md.text('  * [Version table](#version-table)')
+    
     md.item('[Changelog](#changelog)')
 
     md.h1('Overview')
@@ -176,7 +193,9 @@ def execute(**kwargs):
     md.h1('Version history')
     md.text('')
 
-    add_version_history(md, commits)
+    add_version_newest(md, commits)
+    add_version_oldest(md, commits)
+    add_version_table(md, commits)
 
     md.h1('Changelog')
     md.text('')
