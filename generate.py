@@ -236,6 +236,8 @@ def execute(**kwargs):
         for change in commit.changes:
             md.text(f'   * `{change.filename} [+{change.insertions}, -{change.deletions}]`')
 
+        md.text('')
+        md.text('&nbsp;')
 
         last_version = commit.version
 
