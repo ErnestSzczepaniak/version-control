@@ -210,9 +210,10 @@ def execute(**kwargs):
 
             md.h2(f'[{commit.version}]({link_tree})')
 
-        link_commit = f'https://github.com/{url.username}/{url.repository}/commit/{commit.hash}'
+        link_commit = f'https://github.com/{url.username}/{url.repository}/commit/{commit.hash[0:7]}'
+        link_parent = f'https://github.com/{url.username}/{url.repository}/commit/{commit.parent[0:7]}'
 
-        md.item(f'[{commit.date}] [[{commit.hash}]({link_commit})] ({commit.keyword}) - {commit.subject} ({commit.author} @ {commit.time})')
+        md.item(f'[{commit.date}] [[{commit.parent[0:7]}]({link_parent}) -> [{commit.hash[0:7]}]({link_commit})] ({commit.keyword}) - {commit.subject} ({commit.author} @ {commit.time})')
 
         if len(commit.body) > 1:
             md.text('')
@@ -232,6 +233,7 @@ def execute(**kwargs):
 
         for change in commit.changes:
             md.text(f'   * `{change.filename} [+{change.insertions}, -{change.deletions}]`')
+
 
         last_version = commit.version
 

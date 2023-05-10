@@ -25,9 +25,11 @@ class Change():
 class Commit():
     version: str = ''
     hash: str = ''
+    parent: str = ''
     date: str = ''
     time: str = ''
     author: str = ''
+    email: str = ''
     keyword: str = ''
     subject: str = ''
     body: List[str] = field(default_factory=lambda : [])
@@ -90,7 +92,7 @@ class Api():
         return self.execute(f'git -C {self.path} remote get-url origin')[0]
     
     def log(self):
-        return self.execute(f"git -C {self.path} log --pretty=format:\"%h | %ad | %an | %s | %b $\" --date=format:\"%d.%m.%Y %H:%M:%S\"", split='$', reverse=True)[1:]
+        return self.execute(f"git -C {self.path} log --pretty=format:\"%H | %P | %ad | %an | %ae | %s | %b $\" --date=format:\"%d.%m.%Y %H:%M:%S\"", split='$', reverse=True)[1:]
     
     def show(self, hash: str):
         return self.execute(f'git -C {self.path} show {hash} --numstat')
@@ -98,9 +100,11 @@ class Api():
 # /* ---------------------------------------------| client |--------------------------------------------- */
 
 PATTERN_LOG = re.compile(
-    r'(?P<hash>[0-9a-f]{7}) \| '
+    r'(?P<hash>[0-9a-f]{40}) \| '
+    r'(?P<parent>[0-9a-f]{40}) \| '
     r'(?P<date>\d{2}\.\d{2}\.\d{4}) (?P<time>\d{2}:\d{2}:\d{2}) \| '
     r'(?P<author>.+) \| '
+    r'(?P<email>.+) \| '
     r'(?P<keyword>\w+): (?P<subject>.+) \| '
     r'(?P<body>.*)', re.DOTALL
 )
