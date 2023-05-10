@@ -37,12 +37,14 @@ def add_current_version(md: mark.Markdown, commits: List[Commit]):
 
 def add_contributors(md: mark.Markdown, commits: List[Commit]):
     md.h4('Contributors:')
-    contributors = []
+    contributors = {}
     for commit in commits:
         if commit.author not in contributors:
-            contributors.append(commit.author)
+            contributors[commit.author] = commit.email
+
     for contributor in contributors:
-        md.item(f'{contributor}')
+        md.item(f'{contributor} ({contributors[contributor]})')
+
     md.text('')
 
 def add_project_timeframe(md: mark.Markdown, commits: List[Commit]):
