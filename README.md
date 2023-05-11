@@ -6,6 +6,7 @@
 * [Advance usage](#advance-usage)
 * [License](#license)
 * [Contributing](#contributing)
+* [FAQ](#faq)
 
 # Getting Started
 
@@ -68,6 +69,12 @@ Typical usage of this software is as follows:
     version-control show
     ```
 
+1. Find specyfic version in repository that coresponds to `1.0.0`:
+
+    ```bash
+    version-control find --version 1.0.0
+    ```
+
 2. Find all versions of the software in specyfic repository:
 
     ```bash
@@ -110,7 +117,7 @@ release:
     g++ -o myapp main.cpp # Build your application
     version-control generate --output CHANGELOG.md # Generate changelog
     version-control find --schema version date > VERSIONS.txt # Save version history
-    version-control sign --file myapp # Sign your application with version number ie. myapp-1.0.0
+    version-control sign --file myapp # Sign your application with version number ie. myapp-0.4.20
 ```
 
 # License
@@ -120,3 +127,17 @@ This software is licensed under the MIT license. See the [LICENSE](LICENSE) file
 # Contributing
 
 This software is open source and contributions are welcome. See the [CONTRIBUTING](CONTRIBUTING.md) file for more information.
+
+# FAQ
+
+1. **Question:** Why my changelog contains strange strings in places related to Github?
+
+    > Make sure that you repository has a remote named `origin` and that you have access to it. This software uses `git log` command to generate changelog and it uses `origin` remote to generate links to commits.
+
+2. **Question:** Why some of my changelog links are not working properly ?
+
+    > Make sure you have all of your commits pushed to remote repository in order to make links work properly.
+
+3. **Question:** When dumping `find` output to *.txt file, I can see strance characters around software version. What is it?
+
+    > Those are ANSI escape codes used to colorize output. You can disable them by adding `--color False` flag to `find` command.

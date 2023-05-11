@@ -12,7 +12,8 @@ ARGUMENTS = [
     arguments.DATE,
     arguments.TIME,
     arguments.KEYWORD,
-    arguments.AUTHOR
+    arguments.AUTHOR,
+    arguments.COLOR
 ]
 
 def execute(**kwargs):
@@ -33,5 +34,5 @@ def execute(**kwargs):
 
         if commit.match(filter):
 
-            print(commit.show_as(kwargs['format'], kwargs['schema']))
+            print(commit.show_as(kwargs['format'], kwargs['schema'], kwargs['color']))
 

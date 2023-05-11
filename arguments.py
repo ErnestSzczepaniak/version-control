@@ -1,8 +1,10 @@
 
+
 PATH =      ['--path',        {'type': str, 'default': '.',               'help': 'Path to git repository (default: current directory)'}]
 MAJOR =     ['--major',     {'type': str, 'default': 'break',           'help': 'Major version keyword (default: break)'}]
 MINOR =     ['--minor',     {'type': str, 'default': 'feat',            'help': 'Minor version keyword (default: feat)'}]
 PATCH =     ['--patch',     {'type': str, 'default': 'fix',             'help': 'Patch version keyword (default: fix)'}]
+COLOR =     ['--color',     {'type': lambda x: (x == 'True'),      'default': False, 'help': 'Colorize output (default: True)'}]
 
 OUTPUT =    ['--output',      {'type': str, 'default': 'CHANGELOG.md',    'help': 'Output file (default: CHANGELOG.md)'}]
 

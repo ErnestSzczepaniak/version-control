@@ -7,7 +7,7 @@ from datetime import datetime
 # /* ---------------------------------------------| datatypes |--------------------------------------------- */
 
 FORMAT_TABLE = {
-    'version': Fore.YELLOW + '{:<13}' + Fore.RESET,
+    'version': [Fore.YELLOW + '{:<13}' + Fore.RESET, '{:<13}'],
     'hash': '{:<7}',
     'date': '{:<10}',
     'time': '{:<8}',
@@ -37,9 +37,11 @@ class Commit():
     body: List[str] = field(default_factory=lambda : [])
     changes: List[Change] = field(default_factory=lambda : [])
 
-    def show_as(self, format: str, schema: List[str]):
+    def show_as(self, format: str, schema: List[str], color: bool = True):
         if format == 'table':
-            return '  '.join(FORMAT_TABLE[key].format(getattr(self, key)) for key in schema)
+            table = FORMAT_TABLE.copy()
+            table['version'] = FORMAT_TABLE['version'][0] if color else FORMAT_TABLE['version'][1]
+            return '  '.join(table[key].format(getattr(self, key)) for key in schema)
         elif format == 'csv':
             return ', '.join([getattr(self, key) for key in schema])
         elif format == 'json':

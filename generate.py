@@ -105,6 +105,10 @@ def add_version_newest(md: mark.Markdown, commits: List[Commit]):
 
 def add_version_table(md: mark.Markdown, commits: List[Commit]):
     md.h4('Version table based on new features:')
+    md.text('')
+    md.text('<div style="margin-left: 30px;">')
+    md.text('')
+
     groups = {}
 
     for commit in commits:
@@ -117,9 +121,9 @@ def add_version_table(md: mark.Markdown, commits: List[Commit]):
 
     max_items = max(len(groups[key]) for key in groups)
 
-    table_rows = '| Feature | Fixes | ' + '| ' * (max_items - 2 ) + '|'
+    table_rows = '| New feature | Fixes | ' + '| ' * (max_items - 2 ) + '|'
 
-    cendating_rows = '| -: ' + '| :-: ' * max_items + '|'
+    cendating_rows = '| :- ' + '| :-: ' * max_items + '|'
 
     md.text(table_rows)
     md.text(cendating_rows)
@@ -130,6 +134,9 @@ def add_version_table(md: mark.Markdown, commits: List[Commit]):
             link = commit.version.replace('.', '')
             row += f' [{commit.version}](#{link}) |'
         md.text(row)
+
+    md.text('</div>')
+    md.text('')
 
 def execute(**kwargs):
 
@@ -244,9 +251,9 @@ def execute(**kwargs):
         md.text(f'&#9776; &nbsp; &nbsp; Detailed description:')
         md.text('')
 
-        md.text(f'   * Full commit hash - `{commit.hash}`')
-        md.text(f'   * Full parent hash - `{commit.parent}`')
-        md.text(f'   * Total work time - `{commit.duration}`')
+        md.text(f'   * Commit hash - `{commit.hash}`')
+        md.text(f'   * Parent hash - `{commit.parent}`')
+        md.text(f'   * Duration - `{commit.duration}`')
 
         md.text('')
         md.text('</div>')
