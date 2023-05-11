@@ -21,6 +21,7 @@ class Change():
     filename: str = ''
     insertions: int = 0
     deletions: int = 0
+    event: str = ''
 
 @dataclass
 class Commit():
@@ -98,8 +99,11 @@ class Api():
     def log(self):
         return self.execute(f"git -C {self.path} log --pretty=format:\"%H | %P | %ad | %an | %ae | %s | %b $\" --date=format:\"%d.%m.%Y %H:%M:%S\"", split='$', reverse=True)[1:]
     
-    def show(self, hash: str):
+    def show_numstat(self, hash: str):
         return self.execute(f'git -C {self.path} show {hash} --numstat')
+    
+    def show_compact_summary(self, hash: str):
+        return self.execute(f'git -C {self.path} show {hash} --compact-summary')
 
 # /* ---------------------------------------------| client |--------------------------------------------- */
 
@@ -113,8 +117,12 @@ PATTERN_LOG = re.compile(
     r'(?P<body>.*)', re.DOTALL
 )
 
-PATTERN_SHOW = re.compile(
+PATTERN_SHOW_NUMSTAT = re.compile(
     r'(?P<insertions>\d+)\t(?P<deletions>\d+)\t(?P<filename>.*)'
+)
+
+PATTERN_SHOW_COMPACT_SUMMARY = re.compile(
+    r'(?P<filename>\w+\s)(?P<event>\(\w+\))?\s+\|'
 )
 
 PATTERN_BRANCHES = re.compile(
@@ -207,13 +215,15 @@ class Client(Api):
 
         for commit in commits:
 
-            lines = self.api.show(commit.hash)
+            lines_numstat = self.api.show_numstat(commit.hash)
+            lines_compact_summary = self.api.show_compact_summary(commit.hash)
 
-            matches = PATTERN_SHOW.findall('\n'.join(lines))
+            matches_numstat = PATTERN_SHOW_NUMSTAT.findall('\n'.join(lines_numstat))
+            matches_compact_summary = PATTERN_SHOW_COMPACT_SUMMARY.findall('\n'.join(lines_compact_summary))
 
-            for match in matches:
+            for numstat, compact_summary in zip(matches_numstat, matches_compact_summary):
 
-                change = Change(filename=match[2], insertions=int(match[0]), deletions=int(match[1]))
+                change = Change(filename=numstat[2], insertions=int(numstat[0]), deletions=int(numstat[1]), event=compact_summary[1])
 
                 commit.changes.append(change)
 

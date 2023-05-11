@@ -244,7 +244,7 @@ def execute(**kwargs):
         md.text('')
 
         for change in commit.changes:
-            md.text(f'   * `{change.filename} [+{change.insertions}, -{change.deletions}]`')
+            md.text(f'   * `{change.filename} [+{change.insertions}, -{change.deletions}] {change.event}`')
 
         md.text('')
 
