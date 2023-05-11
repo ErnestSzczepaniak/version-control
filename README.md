@@ -2,7 +2,8 @@
 
 * [Getting Started](#getting-started)
 * [Installation](#installation)
-* [Usage](#usage)
+* [Basic usage](#basic-usage)
+* [Advance usage](#advance-usage)
 * [License](#license)
 * [Contributing](#contributing)
 
@@ -12,7 +13,10 @@ This software tool is designed to help with version control of software projects
 
 It uses a combination of git tags and git commits to calculate the current version of the software. It also allows you to generate a changelog file based on git commits.
 
-Version calculation is based on SymVer 2.0.0 specification. For more information about SymVer, see [https://semver.org/](https://semver.org/) and conventional commits specification [https://www.conventionalcommits.org/en/v1.0.0/](https://www.conventionalcommits.org/en/v1.0.0/).
+Version calculation is based on:
+
+* [SymVer 2.0.0](https://semver.org/)
+* [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 
 The default keywords used to calculate the version are:
 
@@ -54,11 +58,11 @@ This script does the following:
 2. Copies bash autocompletion script to `/etc/bash_completion.d`
 3. Creates a shortcut symbolic link named `vc` in `/usr/local/bin` to the main executable
 
-# Usage
+# Basic usage
 
 Typical usage of this software is as follows:
 
-1. Calculate and show curretn software version in current repository:
+1. Calculate and show current software version in current repository:
 
     ```bash
     version-control show
@@ -76,20 +80,43 @@ Typical usage of this software is as follows:
     version-control find --author "John Doe" --format json
     ```
 
-4. Generate a changelog file and save it to specified location:
+4. Find all versions of the software in current repository and change output schema to `version` + `date` pair:
+
+    ```bash
+    version-control find --schema version date
+    ```
+
+5. Generate a changelog file and save it to specified location:
 
     ```bash
     version-control generate --output docs/CHANGELOG.md
     ```
 
-5. Sign a file with current repository version (i.e rename a file to `file-version`):
+6. Sign a file with current repository version (i.e rename a file to `file-version`):
 
     ```bash
     version-control sign --file file
     ```
+
+# Advance usage
+
+This software was build to support CI/CD procedure for standalone project. You can use it to automate versioning and changelog generation.
+
+For example, you can use it in your `Makefile` to automate versioning and changelog generation by adding this target:
+
+```makefile
+release:
+    git add . && git commit # Commit all changes to update version
+    g++ -o myapp main.cpp # Build your application
+    version-control generate --output CHANGELOG.md # Generate changelog
+    version-control find --schema version date > VERSIONS.txt # Save version history
+    version-control sign --file myapp # Sign your application with version number ie. myapp-1.0.0
+```
 
 # License
 
 This software is licensed under the MIT license. See the [LICENSE](LICENSE) file for more information.
 
 # Contributing
+
+This software is open source and contributions are welcome. See the [CONTRIBUTING](CONTRIBUTING.md) file for more information.
