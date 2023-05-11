@@ -122,7 +122,7 @@ PATTERN_SHOW_NUMSTAT = re.compile(
 )
 
 PATTERN_SHOW_COMPACT_SUMMARY = re.compile(
-    r'(?P<filename>\w+\s)(?P<event>\(\w+\))?\s+\|'
+    r'\s(?P<filename>.*)\s+\|'
 )
 
 PATTERN_BRANCHES = re.compile(
@@ -223,7 +223,9 @@ class Client(Api):
 
             for numstat, compact_summary in zip(matches_numstat, matches_compact_summary):
 
-                change = Change(filename=numstat[2], insertions=int(numstat[0]), deletions=int(numstat[1]), event=compact_summary[1])
+                event = 'new' if 'new' in compact_summary else 'gone' if 'gone' in compact_summary else ''
+
+                change = Change(filename=numstat[2], insertions=int(numstat[0]), deletions=int(numstat[1]), event=event)
 
                 commit.changes.append(change)
 
