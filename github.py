@@ -244,7 +244,7 @@ class Client(Api):
                 versions.append(entry)
             else:
                 for i in range(occurences[entry]):
-                    versions.append(f'{entry}-rev.{i+1}')
+                    versions.append(f'{entry}.rc{i+1}')
 
         for commit, version in zip(commits, versions):
             commit.version = version
