@@ -215,13 +215,17 @@ def execute(**kwargs):
         link_commit = f'https://github.com/{url.username}/{url.repository}/commit/{commit.hash[0:7]}'
         link_parent = f'https://github.com/{url.username}/{url.repository}/commit/{commit.parent[0:7]}'
 
-        md.item(f'[{commit.date}] [[{commit.parent[0:7]}]({link_parent}) -> [{commit.hash[0:7]}]({link_commit})] ({commit.keyword}) - {commit.subject} ({commit.author} @ {commit.time})')
+        md.text('')
+        md.text('&nbsp;')
+        md.text('')
+
+        md.text(f'&#9737; &nbsp; &nbsp; [{commit.date}] [[{commit.parent[0:7]}]({link_parent}) &#8674; [{commit.hash[0:7]}]({link_commit})] ({commit.keyword}) - {commit.subject} ({commit.author} @ {commit.time})')
 
         if len(commit.body) > 1:
             md.text('')
             md.text('   ```')
             for element in commit.body[:-1]:
-                md.text(f'   {element}')
+                md.text(f'    * {element}')
             md.text('   ```')
             md.text('')
 
@@ -230,7 +234,9 @@ def execute(**kwargs):
         deletions = sum(change.deletions for change in commit.changes)
 
         md.text('')
-        md.text(f'   {files_changed} files changed ({insertions} insertions, {deletions} deletions):')
+        md.text('&nbsp;')
+        md.text('')
+        md.text(f'&#9998; &nbsp; &nbsp; {files_changed} files changed ({insertions} insertions, {deletions} deletions):')
         md.text('')
 
         for change in commit.changes:
@@ -238,6 +244,19 @@ def execute(**kwargs):
 
         md.text('')
         md.text('&nbsp;')
+        md.text('')
+
+        md.text(f'&#9776; &nbsp; &nbsp; Detailed description:')
+        md.text('')
+
+        md.text(f'   * Full commit hash - `{commit.hash}`')
+        md.text(f'   * Full parent hash - `{commit.parent}`')
+        md.text(f'   * Total work time - `{commit.duration}`')
+
+        md.text('')
+        md.text('&nbsp;')
+        md.text('')
+        md.text('---')
 
         last_version = commit.version
 

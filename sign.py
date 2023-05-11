@@ -8,6 +8,7 @@ ARGUMENTS = [
     arguments.FILE
 ]
 
+
 def execute(**kwargs):
     
     path_repository = pathlib.Path(kwargs['path']).absolute().as_posix()

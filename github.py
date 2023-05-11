@@ -2,6 +2,7 @@ import subprocess, re, json
 from typing import List
 from colorama import Fore
 from dataclasses import dataclass, field
+from datetime import datetime
 
 # /* ---------------------------------------------| datatypes |--------------------------------------------- */
 
@@ -28,6 +29,7 @@ class Commit():
     parent: str = ''
     date: str = ''
     time: str = ''
+    duration: str = ''
     author: str = ''
     email: str = ''
     keyword: str = ''
@@ -195,6 +197,7 @@ class Client(Api):
 
         self.add_versions(commits, major, minor, patch)
         self.add_changes(commits)
+        self.add_duration(commits)
 
         return commits
 
@@ -248,3 +251,13 @@ class Client(Api):
 
         for commit, version in zip(commits, versions):
             commit.version = version
+
+    def add_duration(self, commits: List[Commit]):
+
+        for index, commit in enumerate(commits):
+            timestamp = datetime.strptime(f'{commit.date} {commit.time}', '%d.%m.%Y %H:%M:%S')
+            if index == 0:
+                commit.duration = '0:00:00'
+            else:
+                delta = timestamp - datetime.strptime(f'{commits[index-1].date} {commits[index-1].time}', '%d.%m.%Y %H:%M:%S')
+                commit.duration = str(delta)
