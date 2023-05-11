@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# PYTHON_ARGCOMPLETE_OK
-
 import argparse, show, find, generate, sign
 from argparse import RawTextHelpFormatter
 

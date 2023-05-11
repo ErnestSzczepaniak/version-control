@@ -25,4 +25,4 @@ _completions()
     fi
 }
 
-complete -F _completions version
+complete -F _completions version-control
