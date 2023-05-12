@@ -136,8 +136,12 @@ This software is open source and contributions are welcome. See the [CONTRIBUTIN
 
 2. **Question:** Why some of my changelog links are not working properly ?
 
-    > Make sure you have all of your commits pushed to remote repository in order to make links work properly.
+    > Make sure you have all of your commits pushed to remote repository (for example with `git push` command) in order to make hyperlinks work properly.
 
-3. **Question:** When dumping `find` output to *.txt file, I can see strance characters around software version. What is it?
+3. **Question:** Why there are some strange unrendered characters in my changelog ?
 
-    > Those are ANSI escape codes used to colorize output. You can disable them by adding `--color False` flag to `find` command.
+    > `version-control` software uses basic inline `HTML` tags to format changelog. Make sure that your markdown renderer supports inline `HTML` tags. It is recommended to use one of VSCode extensions to render markdown files.
+
+4. **Question:** Does `find` module support asterisk wildcards ?
+
+    > Yes, you can use asterisk wildcards in `find` module. For example, you can use `version-control find --author "John*"` to find all versions created by authors with name starting with `John`.
