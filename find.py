@@ -16,6 +16,10 @@ ARGUMENTS = [
     arguments.SUBJECT
 ]
 
+FILTER_KEYS = [
+    'version', 'hash', 'date', 'time', 'keyword', 'author', 'subject'
+]
+
 def execute(**kwargs):
 
     path_repository = pathlib.Path(kwargs['path']).absolute().as_posix()
@@ -28,7 +32,7 @@ def execute(**kwargs):
 
     commits.reverse()
 
-    filter = {key: value for key, value in kwargs.items() if key in ['version', 'hash', 'date', 'time', 'keyword', 'author', 'subject']}
+    filter = {key: value for key, value in kwargs.items() if key in FILTER_KEYS}
 
     for commit in commits:
 

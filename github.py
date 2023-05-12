@@ -183,11 +183,11 @@ class Client(Api):
 
     def create_commits(self):
 
-        lines = self.api.log()
+        response = self.api.log()
 
         commits = []
 
-        for line in lines:
+        for line in response:
             
             if line[0] == '\n': line = line[1:]
             
@@ -219,11 +219,11 @@ class Client(Api):
 
         for commit in commits:
 
-            lines_numstat = self.api.show_numstat(commit.hash)
-            lines_compact_summary = self.api.show_compact_summary(commit.hash)
+            response_numstat = self.api.show_numstat(commit.hash)
+            response_compact_summary = self.api.show_compact_summary(commit.hash)
 
-            matches_numstat = PATTERN_SHOW_NUMSTAT.findall('\n'.join(lines_numstat))
-            matches_compact_summary = PATTERN_SHOW_COMPACT_SUMMARY.findall('\n'.join(lines_compact_summary))
+            matches_numstat = PATTERN_SHOW_NUMSTAT.findall('\n'.join(response_numstat))
+            matches_compact_summary = PATTERN_SHOW_COMPACT_SUMMARY.findall('\n'.join(response_compact_summary))
 
             for numstat, compact_summary in zip(matches_numstat, matches_compact_summary):
 

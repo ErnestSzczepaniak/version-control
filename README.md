@@ -114,7 +114,8 @@ For example, you can use it in your `Makefile` to automate versioning and change
 ```makefile
 release:
     git add . && git commit # Commit all changes to update version
-    g++ -o myapp main.cpp # Build your application
+    git push
+    g++ -o myapp main.cpp # Build your C/C++ application
     version-control generate --output CHANGELOG.md # Generate changelog
     version-control find --schema version date > VERSIONS.txt # Save version history
     version-control sign --file myapp # Sign your application with version number ie. myapp-0.4.20

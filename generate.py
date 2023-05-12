@@ -252,17 +252,26 @@ def execute(**kwargs):
 
         if len(commit.body) > 1:
             md.text('')
+            md.text('<div style="margin-left: 29px;">')
+            md.text('')
+
             md.text('   ```')
             for element in commit.body[:-1]:
-                md.text(f'    * {element}')
+                md.text(f'{element}')
             md.text('   ```')
+
+            md.text('</div>')
+            md.text('')
 
         files_changed = len(commit.changes)
         insertions = sum(change.insertions for change in commit.changes)
         deletions = sum(change.deletions for change in commit.changes)
 
         md.text('')
-        md.text(f'&#9998; &nbsp; &nbsp; {files_changed} files changed ({insertions} insertions, {deletions} deletions):')
+        if files_changed == 1:
+            md.text(f'&#9998; &nbsp; &nbsp; {files_changed} file changed ({insertions} insertions, {deletions} deletions):')
+        else:
+            md.text(f'&#9998; &nbsp; &nbsp; {files_changed} files changed ({insertions} insertions, {deletions} deletions):')
         md.text('')
 
         for change in commit.changes:
