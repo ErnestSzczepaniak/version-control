@@ -13,7 +13,7 @@ ARGUMENTS = [
     arguments.TIME,
     arguments.KEYWORD,
     arguments.AUTHOR,
-    arguments.COLOR
+    arguments.SUBJECT
 ]
 
 def execute(**kwargs):
@@ -28,11 +28,11 @@ def execute(**kwargs):
 
     commits.reverse()
 
-    filter = {key: value for key, value in kwargs.items() if key in ['version', 'hash', 'date', 'time', 'keyword', 'author']}
+    filter = {key: value for key, value in kwargs.items() if key in ['version', 'hash', 'date', 'time', 'keyword', 'author', 'subject']}
 
     for commit in commits:
 
         if commit.match(filter):
 
-            print(commit.show_as(kwargs['format'], kwargs['schema'], kwargs['color']))
+            print(commit.show_as(kwargs['format'], kwargs['schema']))
 

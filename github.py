@@ -1,13 +1,12 @@
 import subprocess, re, json
 from typing import List
-from colorama import Fore
 from dataclasses import dataclass, field
 from datetime import datetime
 
 # /* ---------------------------------------------| datatypes |--------------------------------------------- */
 
 FORMAT_TABLE = {
-    'version': [Fore.YELLOW + '{:<13}' + Fore.RESET, '{:<13}'],
+    'version': '{:<13}',
     'hash': '{:<7}',
     'date': '{:<10}',
     'time': '{:<8}',
@@ -38,11 +37,9 @@ class Commit():
     body: List[str] = field(default_factory=lambda : [])
     changes: List[Change] = field(default_factory=lambda : [])
 
-    def show_as(self, format: str, schema: List[str], color: bool = True):
+    def show_as(self, format: str, schema: List[str]):
         if format == 'table':
-            table = FORMAT_TABLE.copy()
-            table['version'] = FORMAT_TABLE['version'][0] if color else FORMAT_TABLE['version'][1]
-            return '  '.join(table[key].format(getattr(self, key)) for key in schema)
+            return '  '.join(FORMAT_TABLE[key].format(getattr(self, key)) for key in schema)
         elif format == 'csv':
             return ', '.join([getattr(self, key) for key in schema])
         elif format == 'json':
@@ -52,13 +49,20 @@ class Commit():
 
     def match(self, filter):
         for key, value in filter.items():
-            if value == '*': continue
-            elif '*' in value:
-                position = value.index('*')
-                if value[:position] not in getattr(self, key): return False
-                if value[position + 1:] not in getattr(self, key): return False
-            elif getattr(self, key) != value:
-                return False
+            if len(value) == 1 and value == '*': 
+                continue
+            elif value.count('*') == 1 and value[0] == '*':
+                if getattr(self, key).endswith(value[1:]):
+                    continue
+            elif value.count('*') == 1  and value[-1] == '*':
+                if getattr(self, key).startswith(value[:-1]):
+                    continue
+            elif value.count('*') == 2:
+                if value[1:-1] in getattr(self, key):
+                    continue
+            elif getattr(self, key) == value:
+                continue
+            return False
         return True
 
 @dataclass
