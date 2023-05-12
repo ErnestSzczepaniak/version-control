@@ -10,6 +10,26 @@ ARGUMENTS = [
     arguments.OUTPUT
 ]
 
+style = """
+<style>
+   .gone {
+      color: #CD5C5C;
+      font-size: 16px;
+      font-weight: 360;
+   }
+   .new {
+      color: #2E8B57;
+      font-size: 16px;
+      font-weight: 380;
+   }
+   .modified {
+      color: #ffc87c;
+      font-size: 16px;
+      font-weight: 350;
+   }
+</style>
+"""
+
 def add_remote_address(md: mark.Markdown, url: github.Url):
     md.h4('Remote address:')
     md.item(f'https://github.com/{url.username}/{url.repository}')
@@ -121,7 +141,7 @@ def add_version_table(md: mark.Markdown, commits: List[Commit]):
 
     max_items = max(len(groups[key]) for key in groups)
 
-    table_rows = '| New feature | Fixes | ' + '| ' * (max_items - 2 ) + '|'
+    table_rows = '| New features | Fixes | ' + '| ' * (max_items - 2 ) + '|'
 
     cendating_rows = '| :- ' + '| :-: ' * max_items + '|'
 
@@ -155,6 +175,8 @@ def execute(**kwargs):
     branches = client.branches()
 
     md = mark.Markdown()
+
+    md.text(style)
 
     md.h1(f'{url.repository}-v{commits[0].version} (by {url.username})')
     md.text('')
@@ -244,10 +266,12 @@ def execute(**kwargs):
         md.text('')
 
         for change in commit.changes:
-            if change.event != '':
-                md.text(f'   * `{change.filename} [+{change.insertions}, -{change.deletions}] ({change.event})`')
-            else:
-                md.text(f'   * `{change.filename} [+{change.insertions}, -{change.deletions}]`')
+            if change.event == '':
+                md.text(f'   * <div class="modified"> {change.filename} [+{change.insertions}, -{change.deletions}] </div>')
+            elif change.event == 'new':
+                md.text(f'   * <div class="new"> {change.filename} [+{change.insertions}, -{change.deletions}] </div>')
+            elif change.event == 'gone':
+                md.text(f'   * <div class="gone"> {change.filename} [+{change.insertions}, -{change.deletions}] </div>')
 
 
         md.text('')
